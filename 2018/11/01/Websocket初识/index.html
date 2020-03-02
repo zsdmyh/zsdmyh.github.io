@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>Websocket初识 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Websocket初识</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 1, 2018&nbsp;&nbsp;12:20:10</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Websocket/">Websocket</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="1-Django-Channels-提供-websocket-服务"><a href="#1-Django-Channels-提供-websocket-服务" class="headerlink" title="1.Django + Channels 提供 websocket 服务"></a>1.Django + Channels 提供 websocket 服务</h2><h3 id="1-1-确保你的环境"><a href="#1-1-确保你的环境" class="headerlink" title="1.1.确保你的环境"></a>1.1.确保你的环境</h3><p><code>windows</code> 环境 <code>python 3.7</code> 目前不支持 3.8  </p>
+<p>类<code>Unix</code>操作系统除外</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install django == <span class="number">2.2</span> <span class="comment"># 以上 目前 Django3.0</span></span><br><span class="line">pip install channels <span class="comment"># 安装最新版本</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-建立Django项目导入channels"><a href="#1-2-建立Django项目导入channels" class="headerlink" title="1.2.建立Django项目导入channels"></a>1.2.建立Django项目导入channels</h3><h4 id="1-2-1-导入channels"><a href="#1-2-1-导入channels" class="headerlink" title="1.2.1.导入channels"></a>1.2.1.导入channels</h4><p> <code>settings.py</code> 中写入如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">'channels'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-2-创建ASGI服务"><a href="#1-2-2-创建ASGI服务" class="headerlink" title="1.2.2.创建ASGI服务"></a>1.2.2.创建<code>ASGI</code>服务</h4><p>新建<code>my_asgi.py</code>文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> channels.routing <span class="keyword">import</span> ProtocolTypeRouter</span><br><span class="line"></span><br><span class="line">application = ProtocolTypeRouter(&#123;</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-3-配置ASGI服务"><a href="#1-2-3-配置ASGI服务" class="headerlink" title="1.2.3.配置ASGI服务"></a>1.2.3.配置<code>ASGI</code>服务</h4><p>让<code>Django</code>支持多种通讯协议 , <code>settings.py</code> 中写入如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ASGI_APPLICATION = <span class="string">'NewWebsocket.my_asgi.application'</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-3-创建app-提供websocket服务"><a href="#1-3-创建app-提供websocket服务" class="headerlink" title="1.3.创建app 提供websocket服务"></a>1.3.创建<code>app</code> 提供<code>websocket</code>服务</h3><h4 id="1-3-1-创建App"><a href="#1-3-1-创建App" class="headerlink" title="1.3.1.创建App"></a>1.3.1.创建<code>App</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py startapp wsserver</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-3-2-创建wsserver中的服务逻辑"><a href="#1-3-2-创建wsserver中的服务逻辑" class="headerlink" title="1.3.2.创建wsserver中的服务逻辑"></a>1.3.2.创建<code>wsserver</code>中的服务逻辑</h4><p>新建<code>service.py</code>文件</p>
+<p>导入<code>websocket</code>服务创造对象(基类 base 父类)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> channels.generic.websocket <span class="keyword">import</span> WebsocketConsumer</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>websocket</code>逻辑服务</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NWService</span><span class="params">(WebsocketConsumer)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    在这里重写 3 个方法</span></span><br><span class="line"><span class="string">    """</span></span><br></pre></td></tr></table></figure>
+
+<p>重写方法如下:</p>
+<p>1.连接时 <code>connect</code> 当客户端发连接时调用此方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端建立连接时,如果需要保持客户端和服务器的链接</span></span><br><span class="line"><span class="string">    self.accept()</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    self.accept()</span><br></pre></td></tr></table></figure>
+
+<p>2.接收消息 <code>receive</code> 当客户端发起消息时(客户端调用send方法时)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">receive</span><span class="params">(self, text_data=None, bytes_data=None)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端发起消息后 服务器收到消息时</span></span><br><span class="line"><span class="string">    :param text_data:  收到的字符串儿数据</span></span><br><span class="line"><span class="string">    :param bytes_data:  收到的字节数据二进制数据流</span></span><br><span class="line"><span class="string">    :return:  None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># 业务逻辑,websocket 转发</span></span><br><span class="line">    self.send(text_data)</span><br></pre></td></tr></table></figure>
+
+<p>3.断开时 <code>disconnect</code> 当客户端中断连接时调用此方法(客户端调用close方法时)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">disconnect</span><span class="params">(self, code)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端断开连接</span></span><br><span class="line"><span class="string">    :param code:断开的错误码</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    self.close()</span><br></pre></td></tr></table></figure>
+
+<p><code>disconnect</code>时,需要执行<code>self.close()</code>才能关闭失效的连接(不是强制必须关闭,但是建议关闭)</p>
+<p><code>WebsocketConsumer</code>提供的方法如下:</p>
+<p>1.建立连接 <code>accept</code> 建立保持连接 , 当<code>connect</code>是一定要执行<code>accept</code> 方法</p>
+<p>2.发送消息 <code>send</code> 服务器通过客户端的链接发送数据</p>
+<h3 id="1-4-开始对外提供Websocket服务"><a href="#1-4-开始对外提供Websocket服务" class="headerlink" title="1.4.开始对外提供Websocket服务"></a>1.4.开始对外提供<code>Websocket</code>服务</h3><p>对外提供<code>websocket</code>服务 也就是在对外提供<code>ASGI</code>接口</p>
+<h4 id="1-4-1-wsserver中的urls-py-为websocket服务增加url"><a href="#1-4-1-wsserver中的urls-py-为websocket服务增加url" class="headerlink" title="1.4.1.wsserver中的urls.py 为websocket服务增加url"></a>1.4.1.<code>wsserver</code>中的<code>urls.py</code> 为<code>websocket</code>服务增加<code>url</code></h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> wsserver.service <span class="keyword">import</span> NWService</span><br><span class="line">ws_url = [</span><br><span class="line">    path(<span class="string">"ws/"</span>,NWService)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-2-将websocket-url增加到Django服务中"><a href="#1-4-2-将websocket-url增加到Django服务中" class="headerlink" title="1.4.2.将websocket-url增加到Django服务中"></a>1.4.2.将<code>websocket-url</code>增加到<code>Django</code>服务中</h4><p><code>my_asgi.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> channels.routing <span class="keyword">import</span> ProtocolTypeRouter,URLRouter</span><br><span class="line"><span class="keyword">from</span> wsserver <span class="keyword">import</span> urls</span><br><span class="line">application = ProtocolTypeRouter(&#123;</span><br><span class="line">    <span class="string">"websocket"</span>:URLRouter(urls.ws_url)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-创建websocket客户端"><a href="#2-创建websocket客户端" class="headerlink" title="2.创建websocket客户端"></a>2.创建<code>websocket</code>客户端</h2><h3 id="2-1-基于JavaScript创建客户端连接"><a href="#2-1-基于JavaScript创建客户端连接" class="headerlink" title="2.1.基于JavaScript创建客户端连接"></a>2.1.基于<code>JavaScript</code>创建客户端连接</h3><p>创建一个干净的<code>HTML</code>文件写入</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Title<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    自己写websocket!</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"application/javascript"</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">"ws://127.0.0.1:8000/ws/"</span>)</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-Websocket客户端常用事件及方法"><a href="#2-2-Websocket客户端常用事件及方法" class="headerlink" title="2.2.Websocket客户端常用事件及方法"></a>2.2.<code>Websocket</code>客户端常用事件及方法</h3><h4 id="2-2-1-客户端常用事件"><a href="#2-2-1-客户端常用事件" class="headerlink" title="2.2.1.客户端常用事件"></a>2.2.1.客户端常用事件</h4><p>1.<code>onopen</code>事件,当<code>websocket</code>客户端创建完成时并且连接成功 触发<code>onopen</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    ws.send(<span class="string">"hello service"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.<code>onmessage</code>事件,收取消息事件,当<code>Websocket</code>客户端收到消息时触发</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// res.data 就是收到的消息内容字符串</span></span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.<code>onerror</code>事件,当<code>websocket</code>客户端连接发生异常或错误时</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ws.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"连接错误"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.<code>onclose</code> 事件,当<code>websocket</code>客户端关闭连接时</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span> (<span class="params">res</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"已关闭websocket连接"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-客户端方法"><a href="#2-2-2-客户端方法" class="headerlink" title="2.2.2.客户端方法"></a>2.2.2.客户端方法</h4><p>1.<code>send</code>发送数据</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.send(<span class="string">'JSON数据'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2.<code>close</code>关闭连接</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.close() <span class="comment">// 此时触发 onclose 事件</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-聊天服务器"><a href="#3-聊天服务器" class="headerlink" title="3.聊天服务器"></a>3.聊天服务器</h2><h3 id="3-1-公共消息传递"><a href="#3-1-公共消息传递" class="headerlink" title="3.1.公共消息传递"></a>3.1.公共消息传递</h3><h4 id="3-1-1-保存客户端到服务器的链接"><a href="#3-1-1-保存客户端到服务器的链接" class="headerlink" title="3.1.1.保存客户端到服务器的链接"></a>3.1.1.保存客户端到服务器的链接</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当客户端连接上服务器之后 将此连接存放在列表中 或 字典中</span></span><br><span class="line">client_list = [] <span class="comment"># 公共变量</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        客户端建立连接时,如果需要保持客户端和服务器的链接</span></span><br><span class="line"><span class="string">        self.accept()</span></span><br><span class="line"><span class="string">        :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(self.scope)</span><br><span class="line">    client_list.append(self) <span class="comment"># 将客户端的连接地址存储在列表中</span></span><br><span class="line">    self.accept()</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-2-传递公共消息"><a href="#3-1-2-传递公共消息" class="headerlink" title="3.1.2.传递公共消息"></a>3.1.2.传递公共消息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将消息通过 遍历`websocket`客户端连接 的方式 逐一发送数据</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">receive</span><span class="params">(self, text_data=None, bytes_data=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        客户端发起消息后 服务器收到消息时</span></span><br><span class="line"><span class="string">        :param text_data:  收到的字符串儿数据</span></span><br><span class="line"><span class="string">        :param bytes_data:  收到的字节数据二进制数据流</span></span><br><span class="line"><span class="string">        :return:  None</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 业务逻辑,websocket 转发</span></span><br><span class="line">        print(text_data)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 通过遍历其他客户端连接实现发送数据</span></span><br><span class="line">        <span class="keyword">for</span> client <span class="keyword">in</span> client_list:</span><br><span class="line">            client.send(text_data)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># self.send(text_data)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1-3-客户端下线"><a href="#3-1-3-客户端下线" class="headerlink" title="3.1.3.客户端下线"></a>3.1.3.客户端下线</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">disconnect</span><span class="params">(self, code)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端断开连接</span></span><br><span class="line"><span class="string">    :param code:断开的错误码</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">"客户端断开连接"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 已经关闭的客户端连接 并没有在列表中释放</span></span><br><span class="line">    <span class="comment"># 遍历客户端列表时 有可能遇到无效的连接</span></span><br><span class="line">    client_list.remove(self)</span><br><span class="line">    </span><br><span class="line">    self.close()</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-点对点消息传递"><a href="#3-2-点对点消息传递" class="headerlink" title="3.2.点对点消息传递"></a>3.2.点对点消息传递</h3><h4 id="3-2-1-创建连接"><a href="#3-2-1-创建连接" class="headerlink" title="3.2.1.创建连接"></a>3.2.1.创建连接</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将客户端连接存入字典,将Key设置为昵称</span></span><br><span class="line">client_dict = &#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NWService</span><span class="params">(WebsocketConsumer)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    在这里重写 3 个方法</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        客户端建立连接时,如果需要保持客户端和服务器的链接</span></span><br><span class="line"><span class="string">        self.accept()</span></span><br><span class="line"><span class="string">        :return: None</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="comment"># 获取用户的昵称</span></span><br><span class="line">        <span class="comment"># ws://127.0.0.1:8000/ws/&lt;username&gt;/</span></span><br><span class="line">        username = self.scope.get(<span class="string">"url_route"</span>).get(<span class="string">"kwargs"</span>).get(<span class="string">"username"</span>)</span><br><span class="line">        </span><br><span class="line">        client_dict[username] = self</span><br><span class="line">        </span><br><span class="line">        self.accept()</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-2-点对点消息传递"><a href="#3-2-2-点对点消息传递" class="headerlink" title="3.2.2.点对点消息传递"></a>3.2.2.点对点消息传递</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">receive</span><span class="params">(self, text_data=None, bytes_data=None)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端发起消息后 服务器收到消息时</span></span><br><span class="line"><span class="string">    :param text_data:  收到的字符串儿数据</span></span><br><span class="line"><span class="string">    :param bytes_data:  收到的字节数据二进制数据流</span></span><br><span class="line"><span class="string">    :return:  None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># text_data 是一个字典</span></span><br><span class="line">    text_data = &#123;</span><br><span class="line">        <span class="string">"sender"</span>:<span class="string">"发送方昵称"</span>,</span><br><span class="line">        <span class="string">"receiver"</span>:<span class="string">"接收方昵称"</span>,</span><br><span class="line">        <span class="string">"message"</span>:<span class="string">"消息内容"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment"># 获取接收方的昵称</span></span><br><span class="line">    receiver_name = text_data.get(<span class="string">"receiver"</span>)</span><br><span class="line">    <span class="comment"># 通过接收方昵称 获得 接收方的客户端连接</span></span><br><span class="line">    receiver_client = client_dict.get(receiver_name)</span><br><span class="line">    <span class="comment"># 通过接受方的连接 发送数据</span></span><br><span class="line">    receiver_client.send(json.dumps(text_data))</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-3-点对点断开连接"><a href="#3-2-3-点对点断开连接" class="headerlink" title="3.2.3.点对点断开连接"></a>3.2.3.点对点断开连接</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">disconnect</span><span class="params">(self, code)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    客户端断开连接</span></span><br><span class="line"><span class="string">    :param code:断开的错误码</span></span><br><span class="line"><span class="string">    :return: None</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">"客户端断开连接"</span>)</span><br><span class="line"></span><br><span class="line">    username = self.scope.get(<span class="string">"url_route"</span>).get(<span class="string">"kwargs"</span>).get(<span class="string">"username"</span>)</span><br><span class="line">    client_dict.pop(username)</span><br><span class="line"></span><br><span class="line">    self.close()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-3-多媒体消息"><a href="#3-3-多媒体消息" class="headerlink" title="3.3.多媒体消息"></a>3.3.多媒体消息</h3><h4 id="3-3-1-上传任务"><a href="#3-3-1-上传任务" class="headerlink" title="3.3.1.上传任务"></a>3.3.1.上传任务</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 上传任务是通过 HTTP 协议上传</span></span><br><span class="line"><span class="comment"># 建议上传任务和消息传递分开</span></span><br><span class="line"><span class="comment"># 1.收到上传后的多媒体文件</span></span><br><span class="line"><span class="comment"># 2.将多媒体文件保存并存入数据库</span></span><br><span class="line"><span class="comment"># 3.将存储后的信息传递给客户端</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-2-客户端转发"><a href="#3-3-2-客户端转发" class="headerlink" title="3.3.2.客户端转发"></a>3.3.2.客户端转发</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.客户端收到上传任务成功后的Response</span></span><br><span class="line"><span class="comment"># 2.客户端将Response中的消息数据转发给`Websocket`服务</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-3-websocket服务转发"><a href="#3-3-3-websocket服务转发" class="headerlink" title="3.3.3.websocket服务转发"></a>3.3.3.<code>websocket</code>服务转发</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 服务器实现点对点或公共消息传递</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-4-客户端收到多媒体消息"><a href="#3-3-4-客户端收到多媒体消息" class="headerlink" title="3.3.4.客户端收到多媒体消息"></a>3.3.4.客户端收到多媒体消息</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.客户端判断是否收到多媒体消息</span></span><br><span class="line"><span class="comment"># 2.多媒体消息路径拼接</span></span><br><span class="line"><span class="comment"># 3.实现多媒体消息展示 audio video image</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-未读机制"><a href="#4-未读机制" class="headerlink" title="4.未读机制"></a>4.未读机制</h2><h3 id="4-1-Redis存储未读消息数量"><a href="#4-1-Redis存储未读消息数量" class="headerlink" title="4.1.Redis存储未读消息数量"></a>4.1.<code>Redis</code>存储未读消息数量</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    receiver:&#123;</span><br><span class="line">        sender:1</span><br><span class="line">        sender1:2</span><br><span class="line">        sender2:5</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-离线消息存储触发"><a href="#4-2-离线消息存储触发" class="headerlink" title="4.2.离线消息存储触发"></a>4.2.离线消息存储触发</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当客户端不在线或者是触发send方法失败时</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">receive</span><span class="params">(self, text_data=None, bytes_data=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        客户端发起消息后 服务器收到消息时</span></span><br><span class="line"><span class="string">        :param text_data:  收到的字符串儿数据</span></span><br><span class="line"><span class="string">        :param bytes_data:  收到的字节数据二进制数据流</span></span><br><span class="line"><span class="string">        :return:  None</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        text_data = &#123;</span><br><span class="line">            <span class="string">"sender"</span>:<span class="string">"发送方昵称"</span>,</span><br><span class="line">            <span class="string">"receiver"</span>:<span class="string">"接收方昵称"</span>,</span><br><span class="line">            <span class="string">"message"</span>:<span class="string">"消息内容"</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        receiver_name = text_data.get(<span class="string">"receiver"</span>)</span><br><span class="line">        receiver_client = client_dict.get(receiver_name)</span><br><span class="line">        <span class="comment"># 判断客户端是否在线</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> receiver_client:</span><br><span class="line">            <span class="comment"># 开启离线消息</span></span><br><span class="line">            <span class="comment"># 写入离线Redis数据库</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># send方法调用失败时 触发</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            receiver_client.send(json.dumps(text_data))</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="comment"># 开启离线或未读消息</span></span><br><span class="line">            <span class="comment"># 写入未读Redis数据库</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/django-python-Websocket/"># django python Websocket</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/11/26/Django--09ORM%E6%93%8D%E4%BD%9C/">ORM映射</a>
+            
+            
+            <a class="next" rel="next" href="/2018/10/27/uni-app%E6%8E%A5%E5%8F%A3%E8%BF%9B%E9%98%B6/">uni-app接口进阶</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
