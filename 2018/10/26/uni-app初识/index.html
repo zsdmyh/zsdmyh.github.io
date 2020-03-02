@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>uni-app初识 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">uni-app初识</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 26, 2018&nbsp;&nbsp;18:35:22</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/uni-app/">uni-app</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="uni-app"><a href="#uni-app" class="headerlink" title="uni-app"></a><code>uni-app</code></h1><h2 id="1-uni-app是什么鬼"><a href="#1-uni-app是什么鬼" class="headerlink" title="1.uni-app是什么鬼"></a>1.<code>uni-app</code>是什么鬼</h2><p>不知道<code>uni-app</code>并不是一件丢人的事情,但是如果你不知道<code>Vue.js</code>那你怎么好意思说自己是程序员呢?</p>
+<p>悄悄的告诉你<code>Vue.js</code>是中国人开发的,它的官方地址是<code>https://cn.vuejs.org/</code></p>
+<p><code>uni-app</code>是一个使用<code>Vue.js</code>开发跨平台应用的前端框架</p>
+<p><code>uni-app</code>也是<code>Vue.js</code>官方合作伙伴,是<code>Vue.js</code>极力推荐的技术之一</p>
+<p>什么是跨平台应用呢?</p>
+<p>就是一套代码可以运行在多个平台上,比如说大家听说过<code>Android</code>开发,就是开发在<code>Android</code>上面的应用程序,<code>iOS</code>同理</p>
+<p>然而<code>uni-app</code>并不是单单这两个平台而已,它还能用同一套代码自动转换成小程序,微信,支付宝,头条,抖音,百度等等,总共支持7种平台</p>
+<p>这7种平台仅仅只需要一套代码就能搞定,可见此技术是非常非常厉害的,就算是再高的学习成本也是值得的,但是恰恰出乎你预料的就是,此技术的学习成本极低</p>
+<h2 id="2-我想学习uni-app"><a href="#2-我想学习uni-app" class="headerlink" title="2.我想学习uni-app"></a>2.我想学习<code>uni-app</code></h2><p>想学习<code>uni-app</code>这项技术,其实准备工作还是挺多的</p>
+<p>1.你需要去<code>https://www.dcloud.io/</code> 这个地址上面下载一个工具叫<code>HBuilderX</code></p>
+<p>2.你需要知道一个网站<code>https://uniapp.dcloud.io/</code> 这个是<code>uni-app</code>的官方</p>
+<p>3.你需要准备一个微信小程序开发工具<code>https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html</code></p>
+<p>细心的同学已经观察出来了<code>Dcloud</code>已经重复出现了很多次</p>
+<p>是的没错无论是<code>uni-app</code>还是<code>HBuilderX</code>都是<code>Dcloud</code>公司推出的,只不过他们的区别,一个是框架,一个是工具</p>
+<p><code>HBuilderX</code>是<code>Dcloud</code>公司的王牌编辑工具,用来编写前端代码,如<code>HTML</code>,<code>JavaScript</code>,<code>CSS</code>,行云流水一般,极力推荐<code>HBuilderX</code>作为你的主力前端编辑工具</p>
+<p>有了以上的准备工作还是远远不够,你还需要一些基础知识</p>
+<p>1.<code>Vue.js</code>了解一下,至少你要会用它写过一些简单的实例<code>实验楼</code>就是最好的写照</p>
+<p>2.<code>HTML</code>了解一下,至少你要知道什么是标签</p>
+<p>3.<code>JavaScript</code>了解一下,至少你要知道什么是DOM对象</p>
+<p>4.手机硬件驱动了解一下,至少你要知道你的手机都有什么硬件功能</p>
+<p>5.移动端系统调用了解一下,至少你要知道移动操作系统<code>Android</code>和<code>IOS</code>都有什么是系统内置功能</p>
+<h2 id="3-这才是你真正的手机"><a href="#3-这才是你真正的手机" class="headerlink" title="3.这才是你真正的手机"></a>3.这才是你真正的手机</h2><p>别说你对手机多了解,真到了这个节骨眼儿上,估计你也够呛</p>
+<p>手机硬件了解一下:</p>
+<p>1.扬声器,用于让你听见声音</p>
+<p>2.麦克风,用于采集你的声音</p>
+<p>3.摄像头,用于偷拍</p>
+<p>4.闪光灯,用于手电筒</p>
+<p>以下是你经常用,但是会被忽略的高级硬件驱动</p>
+<p>5.<code>BlueTooth</code> , 请您把通讯连牙蓝上了!蓝上了!</p>
+<p>6.<code>Compass</code>, 糟糕又转向了 指南针 罗盘</p>
+<p>7.<code>Accelerometer</code>,动了动了动了~它动了 设备加速传感器</p>
+<p>8.<code>Gyroscope</code>,”方向水平-45°,垂直172°” 陀螺仪 </p>
+<p>9.<code>Vibrate</code>,”呜呜<del>呜呜</del>呜呜~” 振动马达</p>
+<p>10.<code>NetWork</code>,新时代的起源 网络模块</p>
+<p>11.<code>Wi-Fi</code>, 请<del>不要关闭路由器</del> 无线网络</p>
+<p>12.<code>Battery</code>, 比我的生命还重要 电池管理</p>
+<p>13.<code>NFC</code>, 肯德基的弟弟 , 接触</p>
+<p>14.<code>GPS</code>, 我是谁?我在哪儿?高德地图持续为您导航 </p>
+<p>15.<code>SupportSoterAuthentication</code>,全世界只有一个你 生物认证</p>
+<p>移动操作系统原生功能调用了解一下:</p>
+<p>1.相册</p>
+<p>2.通讯录</p>
+<p>3.短信</p>
+<p>4.电子邮件</p>
+<p>5.文件管理</p>
+<h2 id="4-初识庐山真面目"><a href="#4-初识庐山真面目" class="headerlink" title="4.初识庐山真面目"></a>4.初识庐山真面目</h2><p>安装完成<code>HBuilderX</code>之后我们可以创建第一个<code>uni-app</code>的程序了</p>
+<p><code>HelloUni</code>第一个<code>uni-app</code>程序,选择模板<code>Hello uni-app</code>演示项目</p>
+<p>开启手机的<code>USB</code>调试模式</p>
+<p>将<code>uni-app</code>程序运行到手机</p>
+<p>来看一下<code>uni-app</code>为我们实现的功能</p>
+<p><code>common</code> 目录用于存放插件,<code>js</code>,<code>css</code>文件</p>
+<p><code>components</code> 目录用于存放定义好的组件,与<code>Vue.js</code>项目中 <code>components</code>功能相同</p>
+<p><code>pages</code> 目录用于存放<code>App</code>真正要显示的页面内容</p>
+<p><code>static</code> 目录存放字体,图片等静态文件</p>
+<p><code>unpackage</code> 目录用于过滤掉打包<code>App</code>时不存放的文件</p>
+<p><code>manifest.json</code> 是当前<code>App</code>的全局配置,这里面也包括了很多打包信息</p>
+<p><code>pages.json</code> 这是当前<code>App</code>的页面配置文件,很重要哦</p>
+<p><code>uni.scss</code>这是<code>uni-app</code>原生样式文件</p>
+<h2 id="5-我的一个uni-app"><a href="#5-我的一个uni-app" class="headerlink" title="5.我的一个uni-app"></a>5.我的一个<code>uni-app</code></h2><p>创建第一个<code>uni-app</code>应用<code>FirstTime</code></p>
+<p>由于<code>HBuilderX</code>工具的原因创建出来的空项目没有<code>uni.css</code>样式文件,也没有<code>uni.ttf</code>字体文件,所以这两个文件我们需要从上一个项目中复制过来</p>
+<p><code>uni.css</code>静态样式文件需要复制到<code>common</code>目录中</p>
+<p><code>uni.ttf</code>字体文件需要复制到<code>static</code>目录中</p>
+<p>接下来,我们就见证一下自己的项目吧</p>
+<p><code>view</code> 视图容器 其实就是 <code>div</code> 的意思</p>
+<h2 id="6-添砖加瓦之按钮解决一切"><a href="#6-添砖加瓦之按钮解决一切" class="headerlink" title="6.添砖加瓦之按钮解决一切"></a>6.添砖加瓦之按钮解决一切</h2><h3 id="1-添加一个带有样式的按钮"><a href="#1-添加一个带有样式的按钮" class="headerlink" title="1.添加一个带有样式的按钮"></a>1.添加一个带有样式的按钮</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">style</span>=<span class="string">"margin-top: 100px;"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"mini-btn"</span> <span class="attr">type</span>=<span class="string">"primary"</span> <span class="attr">size</span>=<span class="string">"mini"</span> @<span class="attr">click</span>=<span class="string">"cl"</span>&gt;</span></span><br><span class="line">                这是一个按钮</span><br><span class="line">    <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cl:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">"点击按钮了"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-打开一个对话框"><a href="#2-打开一个对话框" class="headerlink" title="2.打开一个对话框"></a>2.打开一个对话框</h3><p>学习<code>showModal</code> 的相关内容及<code>代码块</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cl:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="string">'我刚才点击了按钮'</span>,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-显示自己的内容"><a href="#3-显示自己的内容" class="headerlink" title="3.显示自己的内容"></a>3.显示自己的内容</h3><p>学习<code>input</code>的相关内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">style</span>=<span class="string">"margin-top: 100px;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"title"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"mini-btn"</span> <span class="attr">type</span>=<span class="string">"primary"</span> <span class="attr">size</span>=<span class="string">"mini"</span> @<span class="attr">click</span>=<span class="string">"cl"</span>&gt;</span>这是一个按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">text</span>&gt;</span>&#123;&#123;title&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cl:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="keyword">this</span>.title,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-这只是一张图片"><a href="#4-这只是一张图片" class="headerlink" title="4.这只是一张图片"></a>4.这只是一张图片</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">"../../static/logo.png"</span> <span class="attr">mode</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-听歌吗小哥哥"><a href="#5-听歌吗小哥哥" class="headerlink" title="5.听歌吗小哥哥"></a>5.听歌吗小哥哥</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">:src</span>=<span class="string">""</span> <span class="attr">:poster</span>=<span class="string">""</span> <span class="attr">:name</span>=<span class="string">""</span> <span class="attr">:author</span>=<span class="string">""</span> <span class="attr">:action</span>=<span class="string">""</span> <span class="attr">controls</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">current: &#123;</span><br><span class="line">    poster: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.jpg',</span><br><span class="line">    name: '致爱丽丝',</span><br><span class="line">    author: '暂无',</span><br><span class="line">    src: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3',</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-视频吗小姐姐"><a href="#6-视频吗小姐姐" class="headerlink" title="6.视频吗小姐姐"></a>6.视频吗小姐姐</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">src</span>=<span class="string">""</span> <span class="attr">controls</span>&gt;</span><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="7-你在哪儿"><a href="#7-你在哪儿" class="headerlink" title="7.你在哪儿"></a>7.你在哪儿</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">map</span> <span class="attr">style</span>=<span class="string">"width: 100%; height: 300px;"</span> </span></span><br><span class="line"><span class="tag">     <span class="attr">:latitude</span>=<span class="string">"latitude"</span> </span></span><br><span class="line"><span class="tag">     <span class="attr">:longitude</span>=<span class="string">"longitude"</span> </span></span><br><span class="line"><span class="tag">     <span class="attr">:markers</span>=<span class="string">"covers"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">map</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">title: 'map',</span><br><span class="line">latitude: 39.909,</span><br><span class="line">longitude: 116.39742,</span><br><span class="line">covers: [&#123;</span><br><span class="line">    latitude: 39.909,</span><br><span class="line">    longitude: 116.39742,</span><br><span class="line">    iconPath: '../../../static/location.png'</span><br><span class="line">&#125;, &#123;</span><br><span class="line">    latitude: 39.90,</span><br><span class="line">    longitude: 116.39,</span><br><span class="line">    iconPath: '../../../static/location.png'</span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/uni-app/"># uni-app</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/10/27/uni-app%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F,%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6/">uni-app生命周期和基础组件</a>
+            
+            
+            <a class="next" rel="next" href="/2018/10/20/Django-Vue%E8%A7%A3%E5%86%B3%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98/">django与vue交互</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

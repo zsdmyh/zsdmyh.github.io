@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>uni-app生命周期和基础组件 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">uni-app生命周期和基础组件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 27, 2018&nbsp;&nbsp;17:39:22</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/uni-app/">uni-app</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="uni-app"><a href="#uni-app" class="headerlink" title="uni-app"></a><code>uni-app</code></h1><h2 id="1-uni-app框架之pages-json"><a href="#1-uni-app框架之pages-json" class="headerlink" title="1.uni-app框架之pages.json"></a>1.<code>uni-app</code>框架之<code>pages.json</code></h2><p><code>globalStyle</code>全局窗口样式配置,设置默认页面的窗口表现</p>
+<p>参考文献:<code>https://uniapp.dcloud.io/collocation/pages?id=globalstyle</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    navigationBarBackgroundColor:导航栏背景颜色（同状态栏背景色）,</span><br><span class="line">    navigationBarTextStyle:导航栏标题颜色及状态栏前景颜色，仅支持 black/white	</span><br><span class="line">    navigationBarTitleText:导航栏标题文字内容	</span><br><span class="line">    navigationStyle:导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏</span><br><span class="line">    enablePullDownRefresh:是否开启下拉刷新</span><br><span class="line">    onReachBottomDistance:页面上拉触底事件触发时距页面底部距离，单位只支持px</span><br><span class="line">    titleImage:导航栏图片地址（替换当前文字标题），支付宝小程序内必须使用https的图片链接地址</span><br><span class="line">    transparentTitle:导航栏透明设置。支持 always 一直透明 / auto 滑动自适应 / none 不透明</span><br><span class="line">    animationType:窗口显示的动画效果</span><br><span class="line">    animationDuration:窗口显示动画的持续时间，单位为 ms</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>pages</code>设置页面路径及窗口表现</p>
+<p>这里的配置和<code>globalStyle</code>如出一辙,如果这里<code>style</code>没有进行设置的话,那么继承<code>globalStyle</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"pages"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"path"</span>: <span class="string">"pages/index/index"</span>, </span><br><span class="line">            <span class="attr">"style"</span>: &#123;</span><br><span class="line">                <span class="comment">// 参考 globalStyle 参数信息</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"path"</span>: <span class="string">"pages/login/login"</span>, </span><br><span class="line">            <span class="attr">"style"</span>: &#123;</span><br><span class="line">                <span class="comment">// 参考 globalStyle 参数信息</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>tabBar</code>设置底部 tab 的表现</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">"tabBar": &#123;</span><br><span class="line">    "color": "#7A7E83", // tab 上的文字默认颜色</span><br><span class="line">    "selectedColor": "#3cc51f", // tab 上的文字选中时的颜色</span><br><span class="line">    "borderStyle": "black", // tabbar 上边框的颜色，仅支持 black/white</span><br><span class="line">    "backgroundColor": "#ffffff", // tab 的背景色</span><br><span class="line">    "list": [//tab 的列表，详见 list 属性说明，最少2个、最多5个 tab</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="attr">"pagePath"</span>: <span class="string">"pages/component/index"</span>, <span class="comment">// 页面路径，必须在 pages 中先定义</span></span><br><span class="line">            <span class="attr">"iconPath"</span>: <span class="string">"static/image/icon_component.png"</span>,</span><br><span class="line">            <span class="comment">// 图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px，当 postion 为 top 时，此参数无效，不支持网络图片，不支持字体图标</span></span><br><span class="line">            <span class="attr">"selectedIconPath"</span>: <span class="string">"static/image/icon_component_HL.png"</span>,</span><br><span class="line">            <span class="comment">// 选中时的图片路径，icon 大小限制为40kb，建议尺寸为 81px * 81px ，当 postion 为 top 时，此参数无效</span></span><br><span class="line">            <span class="attr">"text"</span>: <span class="string">"组件"</span></span><br><span class="line">            <span class="comment">// tab 上按钮文字</span></span><br><span class="line">        &#125;, </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"pagePath"</span>: <span class="string">"pages/API/index"</span>,</span><br><span class="line">            <span class="attr">"iconPath"</span>: <span class="string">"static/image/icon_API.png"</span>,</span><br><span class="line">            <span class="attr">"selectedIconPath"</span>: <span class="string">"static/image/icon_API_HL.png"</span>,</span><br><span class="line">            <span class="attr">"text"</span>: <span class="string">"接口"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-uni-app框架之App-vue生命周期-应用生命周期"><a href="#2-uni-app框架之App-vue生命周期-应用生命周期" class="headerlink" title="2.uni-app框架之App.vue生命周期(应用生命周期)"></a>2.<code>uni-app</code>框架之<code>App.vue</code>生命周期(应用生命周期)</h2><p><strong><code>onLaunch</code> 当<code>uni-app</code> 初始化完成时触发（全局只触发一次）</strong></p>
+<p><strong><code>onShow</code> 当 <code>uni-app</code> 启动，或从后台进入前台显示</strong></p>
+<p><strong><code>onHide</code> 当 <code>uni-app</code> 从前台进入后台</strong></p>
+<p><code>onError</code>  当 <code>uni-app</code> 报错时触发</p>
+<p><code>onUniNViewMessage</code> 对 <code>nvue</code> 页面发送的数据进行监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;  </span><br><span class="line">    export default &#123;  </span><br><span class="line">        onLaunch: function() &#123;  </span><br><span class="line">            console.log(&apos;App Launch，app启动&apos;)  </span><br><span class="line">        &#125;,  </span><br><span class="line">        onShow: function() &#123;  </span><br><span class="line">            console.log(&apos;App Show，app展现在前台&apos;)  </span><br><span class="line">        &#125;,  </span><br><span class="line">        onHide: function() &#123;  </span><br><span class="line">            console.log(&apos;App Hide，app不再展现在前台&apos;)  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-uni-app框架之页面page生命周期"><a href="#3-uni-app框架之页面page生命周期" class="headerlink" title="3.uni-app框架之页面page生命周期"></a>3.<code>uni-app</code>框架之页面<code>page</code>生命周期</h2><p><strong><code>onLoad</code>监听页面加载，其参数为上个页面传递的数据,参数类型为Object</strong></p>
+<p><strong><code>onShow</code> 监听页面显示。页面每次出现在屏幕上都触发，包括从下级页面点返回露出当前页面</strong></p>
+<p><strong><code>onReady</code> 监听页面初次渲染完成。注意如果渲染速度快，会在页面进入动画完成前触发</strong></p>
+<p><code>onHide</code> 监听页面隐藏</p>
+<p><code>onUnload</code> 监听页面卸载</p>
+<h2 id="4-uni-app框架之组件生命周期"><a href="#4-uni-app框架之组件生命周期" class="headerlink" title="4.uni-app框架之组件生命周期"></a>4.<code>uni-app</code>框架之组件生命周期</h2><p>这里就是<code>Vue.js</code>中的生命周期</p>
+<p>创建前后,加载前后,更新前后,销毁前后</p>
+<h2 id="5-uni-app中的事件"><a href="#5-uni-app中的事件" class="headerlink" title="5.uni-app中的事件"></a>5.<code>uni-app</code>中的事件</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    click: 'tap', // 点击事件</span><br><span class="line">    touchstart: 'touchstart', // 触摸开始，多点触控，后面的手指同样会触发</span><br><span class="line">    touchmove: 'touchmove', // 接触点改变，滑动时</span><br><span class="line">    touchcancel: 'touchcancel', // 触摸被取消，当系统停止跟踪触摸的时候触发</span><br><span class="line">    touchend: 'touchend', // 触摸结束，手指离开屏幕时</span><br><span class="line">    tap: 'tap', // 点击一下</span><br><span class="line">    longtap: 'longtap', // 按住350毫秒以上</span><br><span class="line">    input: 'input', // 输入</span><br><span class="line">    change: 'change', // 变更</span><br><span class="line">    submit: 'submit', // 提交</span><br><span class="line">    reset: 'reset', // 重置</span><br><span class="line">    focus: 'focus', // 聚焦</span><br><span class="line">    blur: 'blur', // 失去焦点</span><br><span class="line">    confirm: 'confirm', // 弹窗事件</span><br><span class="line">    error: 'error', // 错误</span><br><span class="line">    scrolltoupper: 'scrolltoupper', // 上拉事件</span><br><span class="line">    scrolltolower: 'scrolltolower', // 下拉事件</span><br><span class="line">    scroll: 'scroll' // 滚动事件</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-uni-app框架之基础组件"><a href="#6-uni-app框架之基础组件" class="headerlink" title="6.uni-app框架之基础组件"></a>6.<code>uni-app</code>框架之基础组件</h2><h3 id="1-视图基础组件"><a href="#1-视图基础组件" class="headerlink" title="1.视图基础组件"></a>1.视图基础组件</h3><p><code>view</code> 视图容器 </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span>所有标签必须出现在第一个View下<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>scroll-view</code> 可滑动的视图容器</p>
+<p><code>swiper</code> 滑动轮播组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;swiper :indicator-dots=&quot;true&quot; :autoplay=&quot;true&quot; :interval=&quot;3000&quot; :duration=&quot;1000&quot;&gt;</span><br><span class="line">    &lt;swiper-item style=&quot;background-color: red;&quot;&gt;</span><br><span class="line">        &lt;view class=&quot;swiper-item&quot; &gt;A&lt;/view&gt;</span><br><span class="line">    &lt;/swiper-item&gt;</span><br><span class="line">    &lt;swiper-item style=&quot;background-color: greenyellow;&quot;&gt;</span><br><span class="line">        &lt;view class=&quot;swiper-item&quot; &gt;B&lt;/view&gt;</span><br><span class="line">    &lt;/swiper-item&gt;</span><br><span class="line">    &lt;swiper-item style=&quot;background-color: skyblue;&quot;&gt;</span><br><span class="line">        &lt;view class=&quot;swiper-item&quot; &gt;C&lt;/view&gt;</span><br><span class="line">    &lt;/swiper-item&gt;</span><br><span class="line">&lt;/swiper&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-表单组件"><a href="#2-表单组件" class="headerlink" title="2.表单组件"></a>2.表单组件</h3><p><code>button</code>    按钮组件</p>
+<p><code>checkbox</code>    多选框组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">checkbox-group</span> <span class="attr">name</span>=<span class="string">"good"</span> @<span class="attr">change</span>=<span class="string">"checkboxfunc"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">label</span> <span class="attr">v-for</span>=<span class="string">"index in 5"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">view</span>&gt;</span><span class="tag">&lt;<span class="name">checkbox</span> <span class="attr">:value</span>=<span class="string">"index"</span> /&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>&#123;&#123;index&#125;&#125;<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">checkbox-group</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">checkboxfunc:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(res.detail.value)</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="string">'当前选中'</span>+res.detail.value,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>editor</code>    富文本编辑器 <em>用法特殊</em></p>
+<p><code>form</code>    表单元素</p>
+<p><code>input</code>    输入框组件</p>
+<p><code>label</code>    增强表单组件</p>
+<p><code>picker</code>    选择器组件</p>
+<p><code>radio</code>    单选框组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">radio-group</span> <span class="attr">name</span>=<span class="string">""</span> @<span class="attr">change</span>=<span class="string">"radiofunc"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">label</span> <span class="attr">v-for</span>=<span class="string">"index in 5"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">""</span>&gt;</span><span class="tag">&lt;<span class="name">radio</span> <span class="attr">:value</span>=<span class="string">"index"</span> /&gt;</span><span class="tag">&lt;<span class="name">text</span>&gt;</span>&#123;&#123;index&#125;&#125;的数据<span class="tag">&lt;/<span class="name">text</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">radio-group</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">radiofunc:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(res.detail.value);</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="string">'单选选中'</span>+ res.detail.value,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>slider</code>    滑动选择器组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">slider</span> @<span class="attr">change</span>=<span class="string">"sliderfunc"</span> <span class="attr">show-value</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sliderfunc:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(res.detail.value);</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="string">'当前数值为'</span>+res.detail.value,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>switch</code>    开关选择器组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">switch</span> <span class="attr">checked</span>=<span class="string">"true"</span> @<span class="attr">change</span>=<span class="string">"switchfunc"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">switchfunc:<span class="function"><span class="keyword">function</span>(<span class="params">res</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(res);</span><br><span class="line">    <span class="built_in">console</span>.log(res.detail.value);</span><br><span class="line">    uni.showModal(&#123;</span><br><span class="line">        content: <span class="string">'当前数值为'</span>+res.detail.value,</span><br><span class="line">        showCancel: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>textarea</code>     多行输入框组件</p>
+<h3 id="3-媒体组件"><a href="#3-媒体组件" class="headerlink" title="3.媒体组件"></a>3.媒体组件</h3><p><code>audio</code> 音频播放组件 <em>废弃</em> </p>
+<p><code>video</code> 视频播放组件</p>
+<p><code>image</code> 图片组件</p>
+<h3 id="4-导航组件"><a href="#4-导航组件" class="headerlink" title="4.导航组件"></a>4.导航组件</h3><p><code>navigator</code>     跳转页面组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">"../detail/detail"</span> <span class="attr">open-type</span>=<span class="string">"switchTab"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"primary"</span>&gt;</span>跳转页面TabBar<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">navigator</span> <span class="attr">url</span>=<span class="string">"../look/look"</span> <span class="attr">open-type</span>=<span class="string">"navigate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"warn"</span>&gt;</span>跳转页面NavigatorTo<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">navigator</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-地图组件"><a href="#5-地图组件" class="headerlink" title="5.地图组件"></a>5.地图组件</h3><p><code>map</code>    地图组件 <em>废弃</em></p>
+<h2 id="7-uni-app框架之扩展组件"><a href="#7-uni-app框架之扩展组件" class="headerlink" title="7.uni-app框架之扩展组件"></a>7.<code>uni-app</code>框架之扩展组件</h2><p>扩展组件通常是由第三方提供的,接下来就去下载一个第三方组件库<code>uni-ui</code></p>
+<p>下载地址:<code>https://ext.dcloud.net.cn/plugin?id=55</code></p>
+<p>解压缩之后可以在目录中看到<code>common</code> , <code>components</code> , <code>static</code>目录</p>
+<p>将以上三个目录复制到我们当前的项目中,并且覆盖所有数据</p>
+<p>此前我们已经提过</p>
+<p><code>common</code>是存放<code>js</code>,<code>css</code>样式文件的</p>
+<p><code>components</code>是存放组件的</p>
+<p>接下来如果想在某个页面中使用某些组件的话,只需要加载上来即可</p>
+<p>比如说我想使用一个组件数字角标<code>uniBadge</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;view&gt;</span><br><span class="line">        &lt;view class=&quot;content&quot; style=&quot;margin-top: 150px;&quot;&gt;</span><br><span class="line">            &lt;uni-badge text=&quot;1&quot; type=&quot;error&quot;&gt;&lt;/uni-badge&gt;</span><br><span class="line">        &lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	import uniBadge from &quot;../../components/uni-badge/uni-badge&quot;</span><br><span class="line">	export default &#123;</span><br><span class="line">		components:&#123;</span><br><span class="line">			uniBadge</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意导入方式一定要按照官方标准导入,否则无法正常应用</p>
+<p>比如说我想使用一个组件列表<code>uniList</code> 和<code>uniListItem</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">	&lt;view&gt;</span><br><span class="line">        &lt;uni-list&gt;</span><br><span class="line">            &lt;uni-list-item title=&quot;123123&quot; </span><br><span class="line">                           note=&quot;aaaaaaaaa&quot; </span><br><span class="line">                           showBadge=&quot;true&quot; </span><br><span class="line">                           badgeType=&quot;success&quot; </span><br><span class="line">                           badgeText=&quot;9&quot;&gt;</span><br><span class="line">    		&lt;/uni-list-item&gt;</span><br><span class="line">            &lt;uni-list-item title=&quot;aaaaaaaaaaaaa&quot; </span><br><span class="line">                           note=&quot;111111111111&quot;&gt;</span><br><span class="line">    		&lt;/uni-list-item&gt;</span><br><span class="line">        &lt;/uni-list&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">	import uniList from &quot;@/components/uni-list/uni-list.vue&quot;</span><br><span class="line">	import uniListItem from &quot;@/components/uni-list-item/uni-list-item.vue&quot;</span><br><span class="line">	export default &#123;</span><br><span class="line">		components:&#123;</span><br><span class="line">			uniList,</span><br><span class="line">			uniListItem</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当然这些使用方式是不可能记住的,所以文档这个东西就起到了绝对性的作用</p>
+<p><code>https://ext.dcloud.net.cn/plugin?id=55</code></p>
+<h2 id="今日练习"><a href="#今日练习" class="headerlink" title="今日练习:"></a>今日练习:</h2><p>基本组件应用 及 扩展组件应用</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/uni-app/"># uni-app</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/10/27/uni-app%E6%8E%A5%E5%8F%A3%E8%BF%9B%E9%98%B6/">uni-app接口进阶</a>
+            
+            
+            <a class="next" rel="next" href="/2018/10/26/uni-app%E5%88%9D%E8%AF%86/">uni-app初识</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
