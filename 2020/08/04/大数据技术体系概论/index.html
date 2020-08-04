@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>大数据技术体系初识 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">大数据技术体系初识</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 4, 2020&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/hadoop/">hadoop</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>什么是大数据</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">传统数据的数据量GB-&gt;TB  |  大数据的数据量 TB-&gt;PB以上</span></span><br><span class="line"><span class="string">增长速度快 传统数据 数据稳定,增长速度慢 大数据 数据增长快 实时处理</span></span><br><span class="line"><span class="string">传统数据 结构化  大数据 非结构化数据 格式多样,标准多样</span></span><br><span class="line"><span class="string">传统数据 适合统计报表  大数据适合机器学习,深度学习</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>hadoop技术体系</strong></p>
+<p><strong><em>HDFS</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">HDFS: 存储数据,平时需要时候从上面取出来分析</span></span><br><span class="line"><span class="string">	  可存储超大文件,可运行在廉价机器上</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">不适用于 低延迟 大量小文件 多用户更新</span></span><br><span class="line"><span class="string">		结构化数据  数据量不大</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">HDFS体系架构</span></span><br><span class="line"><span class="string">HDFS是一个主/从（Master/Slave）体系架构，由于分布式存储的性质，集群拥有两类节点NameNode和DataNode。</span></span><br><span class="line"><span class="string">NameNode（名字节点）：系统中通常只有一个，中心服务器的角色，管理存储和检索多个DataNode的实际数据所需的所有元数据。</span></span><br><span class="line"><span class="string">DataNode（数据节点）：系统中通常有多个，是文件系统中真正存储数据的地方，在NameNode统一调度下进行数据块的创建、删除和复制。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>MapReduce</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">MR有两个阶段组成：Map和Reduce，只需实现map()和reduce()两个函数，可实现分布式计算。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">map接受一个键值对（key-value pair），产生一组中间键值对。MapReduce框架会将map函数产生的中间键值对里键相同的值传递给一个reduce函数。</span></span><br><span class="line"><span class="string">(w, "1");</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">reduce接受一个键，以及相关的一组值，将这组值进行合并产生一组规模更小的值</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">map函数接受的键是文件名，值是文件的内容，map逐个遍历单词，每遇到一个单词w，就产生一个中间键值对</span></span><br><span class="line"><span class="string">&lt;w, "1"&gt;，这表示单词w咱又找到了一个；MapReduce将键相同（都是单词w）的键值对传给reduce函数，这样reduce函数接受的键就是单词w，值是一串"1"（最基本的实现是这样，但可以优化），个数等于键为w的键值对的个数，然后将这些“1”累加就得到单词w的出现次数。最后这些单词的出现次数会被写到用户定义的位置，存储在底层的分布式存储系统</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p>Spark</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">支持Java，Python，R和Scala等语言</span></span><br><span class="line"><span class="string">实时场景：</span></span><br><span class="line"><span class="string">	网站埋点、实时从前端页面传输过来的数据、业务系统或物理硬件实时传输过来的数据、硬件信号或者图像数据等，需要实时去计算处理并且返回结果的数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Spark是MapReduce的替代方案，而且兼容HDFS Hive 可融入Hadoop的生态系统，以弥补MapReduce的不足。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">特点:</span></span><br><span class="line"><span class="string">	与Hadoop的MapReduce相比，Spark基于内存的运算要快100倍以上，基于硬盘的运算也要快10倍以上。Spark实现了高效的DAG(有向无环图)执行引擎，可以通过基于内存来高效处理数据流。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>YARN</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">从资源管理角度看，下一代 MapReduce 框架实际上衍生出了一个资源统一管理平台YARN，YARN 的基本思想是将资源管理和作业调度/监控的功能分解为单独的守护进程。它使得 Hadoop 不再局限于仅支持 MapReduce 一种计算模型，而是可无限融入多种计算框架，且对这些框架进行统一管理和调度。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Hive</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Hive主要解决数据处理和计算问题</span></span><br><span class="line"><span class="string">在大数据架构中，Hive和HBase是协作关系</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Hive是Hadoop数据仓库，严格来说，不是数据库，主要是让开发人员能够通过SQL来计算和处理HDFS上的结构化数据，适用于离线的批量数据计算。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Hive是基于HDFS的数据仓库，就把它理解成是一个数据库就可以了。Hive支持SQL92的标准，也就是说在Hive中可以直接写SQL语句进行数据的分析。在Hive中的SQL语句叫HQL语句，HQL最终执行的时候，会被解析成一个MapReduce程序来运行。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>HBase</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Hbase和Hive在大数据架构中处在不同位置，Hbase主要解决实时数据查询问题，Hive主要解决数据处理和计算问题，一般是配合使用。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">主要用于存储半结构化,非结构化数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"> Hadoop database 的简称，也就是基于Hadoop数据库，是一种NoSQL数据库，主要适用于海量明细数据（十亿、百亿）的随机实时查询，如日志明细、交易清单、轨迹行为等。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ElasticSearch</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Elasticsearch 是一个分布式的、开源的搜索分析引擎，支持各种数据类型，包括文本、数字、地理、结构化、非结构化。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">提供快速查询,确保结果的相关性</span></span><br><span class="line"><span class="string">超越精确匹配:</span></span><br><span class="line"><span class="string">	处理错误的拼写 </span></span><br><span class="line"><span class="string">	支持变体</span></span><br><span class="line"><span class="string">	给予自动提示</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/python-hadoop-%E5%A4%A7%E6%95%B0%E6%8D%AE/"># python hadoop 大数据</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2018/11/26/Django--09ORM%E6%93%8D%E4%BD%9C/">ORM映射</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
