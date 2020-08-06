@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>Mysql引擎如何选择 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mysql引擎如何选择</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 6, 2020&nbsp;&nbsp;9:28:41</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Mysql引擎如何选择"><a href="#Mysql引擎如何选择" class="headerlink" title="Mysql引擎如何选择"></a><code>Mysql</code>引擎如何选择</h3><h4 id="1-Mysql引擎概念"><a href="#1-Mysql引擎概念" class="headerlink" title="1.  Mysql引擎概念"></a>1.  <code>Mysql</code>引擎概念</h4><p><code>Mysql</code>数据库存储引擎是数据库底层软件组织，数据库管理系统使用数据引擎进行创建、查询、更新和删除数据。<strong><code>Mysql</code>的核心就是存储引擎。</strong></p>
+<h4 id="2-常见的Mysql引擎及区别"><a href="#2-常见的Mysql引擎及区别" class="headerlink" title="2. 常见的Mysql引擎及区别"></a>2. 常见的<code>Mysql</code>引擎及区别</h4><pre><code>1. `InnoDB`：是目前默认的数据库引擎。
+     1. 支持自动增长列，方法是`auto_increment`,在添加新的值时候可以不输入，它将会成为自动增长后的值。
+     2. 提供了具有提交、回滚和崩溃恢复能力的事物安全。(如果服务器硬件或者软件出现崩溃时，重启`Mysql`时，`InnoDB`会自动恢复到发生崩溃之前的状态)
+     3. 支持事务，默认的事务隔离级别为可重复度。
+     4. 使用的锁粒度为行级锁，可以支持更高的并发。
+     5. 支持外键约束，外键约束其实降低了表的查询速度，但是增加了表之间的耦合度。
+     6. 缺点：读写的处理效率会差一些，并且会占用更多的磁盘空间以保留数据和索引。
+2. `MyISAM`：在5.5.5版本之前是`Mysql`关系数据库管理系统的默认存储引擎，基于`ISAM`引擎并拓展出许多有用的功能
+
+ 1. 拥有较高的插入、查询速度。
+
+      2. 使用的锁粒度为表级锁，实现成本很小，但是降低了并发性能。
+      3. 存储分成三个文件
+             1. `frm`文件：存储表的定义数据
+              2. `MYD`文件：存放表具体记录的数据
+              3. `MYI`文件：存储索引
+      4. 支持三种不同的存储格式
+                  1. 静态固定长度表：这种方式的优点在于存储速度非常快，容易发生缓存，而且表发生损坏后也容易修复。缺点是占空间。这也是默认的存储格式。
+                  2. 动态可变长度表：优点是节省空间，但是一旦出错恢复起来比较麻烦。
+                  3. 压缩表：因为每个记录是被单独压缩的，所以只有非常小的访问开支。
+      5. 缺点：不支持事务、也不支持外键
+3. `MEMORY`
+     1. 将数据存在内存，为了提高数据的访问速度，每一个表实际上和一个磁盘文件关联。文件是`frm`。
+     2. 可以选择使用`btree`索引或者`hash`索引,默认是`hash`索引。
+     3. 支持的数据类型有限制，不支持`TEXT`和`BLOB`类型。
+     4. 缺点：把数据存到内容中，并没有实际写到磁盘中，所以要对下次重新启动服务后如何获得这些修改后   的数据有所考虑。</code></pre><h4 id="3-Mysql引擎操作"><a href="#3-Mysql引擎操作" class="headerlink" title="3.Mysql引擎操作"></a>3.<code>Mysql</code>引擎操作</h4><p>1.查看数据库支持哪些引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show engines;</span><br></pre></td></tr></table></figure>
+
+<p>2.查看数据库默认使用哪个引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like &apos;%storage_engine%&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>3.修改<code>mysql</code>引擎，在建表的时候指定为<code>MyISAM</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create table xx(</span><br><span class="line">   -&gt; name varchar(32)</span><br><span class="line">   -&gt; )engine=myisam;</span><br></pre></td></tr></table></figure>
+
+<p>4.查看是否修改成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create table xx;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-选择Mysql存储引擎"><a href="#4-选择Mysql存储引擎" class="headerlink" title="4.选择Mysql存储引擎"></a>4.选择<code>Mysql</code>存储引擎</h4><ul>
+<li>如果要支持事务，外键，提供提交、回滚、崩溃恢复能力的事物安全能力，并要求实现并发控制，<code>InnoDB</code>是一个好的选择。</li>
+<li>如果数据表主要用来插入和查询记录，则<code>MyISAM</code>引擎能提供较高的处理效率。</li>
+<li>如果只是临时存放数据，数据量不大，并且不需要较高的数据安全性，可以选择将数据保存在内存中的Memory引擎。</li>
+<li>一个数据库可以有多个不同引擎的表，可以根据需求来为表选择合适的引擎。</li>
+<li>constraint foreign key(aid) references aa(id)</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/mysql/"># mysql</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/08/05/HDFS/">HDFS</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

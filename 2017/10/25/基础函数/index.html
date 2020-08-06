@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>基础函数总结 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">基础函数总结</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 25, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="基础函数"><a href="#基础函数" class="headerlink" title="基础函数"></a>基础函数</h3><h4 id="推导式"><a href="#推导式" class="headerlink" title="推导式"></a>推导式</h4><ol>
+<li><p><strong>列表,集合,字典推导式区别在哪里?</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">列表推导式使用中括号</span></span><br><span class="line"><span class="string">字典推导式使用大括号 遍历有键值的可迭代对象</span></span><br><span class="line"><span class="string">集合推导式使用大括号,结果无重复, 集合是遍历可迭代对象生成集合</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">li = [i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>)]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"></span><br><span class="line">mca = &#123;<span class="string">'a'</span>:<span class="number">1</span>,<span class="string">'b'</span>:<span class="number">2</span>,<span class="string">'c'</span>:<span class="number">3</span>,<span class="string">'d'</span>:<span class="number">4</span>&#125;</span><br><span class="line">di = &#123;v:k <span class="keyword">for</span> k,v <span class="keyword">in</span> mca.items()&#125;</span><br><span class="line">&#123;<span class="number">1</span>:<span class="string">'a'</span>,<span class="number">2</span>:<span class="string">'b'</span>,<span class="number">3</span>:<span class="string">'c'</span>,<span class="number">4</span>:<span class="string">'d'</span>&#125;</span><br><span class="line"></span><br><span class="line">squared = &#123;i <span class="keyword">for</span> i <span class="keyword">in</span>[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>]&#125;</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>推导式相较于普通循坏谁更快一些</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">创建序列推导式效率更高</span></span><br><span class="line"><span class="string">列表推导式被编译过的字节码执行效率更快</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元组推导式是什么?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">元组推导式生成的结果是一个生成器对象</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元组推导式怎么一行生成九九乘法表?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tur = (str(j) + <span class="string">' * '</span> + str(i) + <span class="string">' = '</span> + str(i * j) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>) <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">10</span>) <span class="keyword">if</span> i &gt;= j)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>enumerate函数是干啥的?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">enumerate函数是将一个可迭代对象中元素，按元素顺序每个增加一个索引值，将其组成一个索引序列，利用它可以同时获得索引和值，这样做的目的是为了将一个可迭代对象中元素组成一个“索引,值”对便于后续操作。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="基础数据类型内建函数"><a href="#基础数据类型内建函数" class="headerlink" title="基础数据类型内建函数"></a>基础数据类型内建函数</h4><ol>
+<li><p>列表内置函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">list.append  向列表中追加元素</span></span><br><span class="line"><span class="string">list.clear 清空列表</span></span><br><span class="line"><span class="string">list.count(i)   查找列表中指定元素的个数</span></span><br><span class="line"><span class="string">list.extend 将指定的目标追加到列表中</span></span><br><span class="line"><span class="string">list.insert(index,object)  往列表指定位置插入目标元素</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字符串内置函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">str.find  找字符串下标 找不到会报错</span></span><br><span class="line"><span class="string">str.index 找字符串下标 找不到输出 -1</span></span><br><span class="line"><span class="string">str.title  多个单词首字母大写</span></span><br><span class="line"><span class="string">str.replace('d','a')  字符串替换 将 d 替换成 a</span></span><br><span class="line"><span class="string">str.split('')   分割字符串   </span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>集合，字典内置函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">字典</span></span><br><span class="line"><span class="string">info.pop('name')  通过key取出value</span></span><br><span class="line"><span class="string">info.clear()   清空字典</span></span><br><span class="line"><span class="string">info.setdufault('name','123') 设置默认值 如果有Key不生效 如果没有这个Key 自动添加</span></span><br><span class="line"><span class="string">info.values  列出字典所有value</span></span><br><span class="line"><span class="string">info.key   列出字典所有Key</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">集合</span></span><br><span class="line"><span class="string">set.pop()  随机取出元素</span></span><br><span class="line"><span class="string">set|set2  并集</span></span><br><span class="line"><span class="string">set &amp; set2  交集</span></span><br><span class="line"><span class="string">set - set2 差集</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元组的就俩个</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">tuple.count()  统计指定目标在元组中的个数</span></span><br><span class="line"><span class="string">tuple.index()  查找制定目标在元组中的位置</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数据类型中的都有一个函数是什么?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">count()</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>list.append() 和 list.extend() 的区别是啥?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">append是向列表中添加一个对象 整体打包到列表中</span></span><br><span class="line"><span class="string">extend 是将值和原序列合并 放到后面去</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="python内置函数"><a href="#python内置函数" class="headerlink" title="python内置函数"></a>python内置函数</h4><ol>
+<li><p>什么是map函数?有什么用?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">map()是python内置的高阶函数,他接受一个函数f和一个list,并通过函数f依次作用在list的每个元素上</span></span><br><span class="line"><span class="string">pyhon2返回列表,python3返回迭代对象</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">例如我们希望把list的每个元素都做平方,就可以用map，及其他数据类型转为列表</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>请使用reduce函数计算100的阶乘?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(reduce(<span class="keyword">lambda</span> x,y:x*y,[ i <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">101</span>)]))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zip函数是什么?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">zip是python中的内置函数</span></span><br><span class="line"><span class="string">他会依次取出每一个数组的元素,然后组合,如果元素长度不一致会被砍到一样长</span></span><br><span class="line"><span class="string">在Python3中 由于优化内存的考虑,只能访问一次</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用filter函数将[1,2,3,4]处理为[2,4]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(list(filter(<span class="keyword">lambda</span> x:x % <span class="number">2</span>==<span class="number">0</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用sorted函数,将一个字典用value排序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dic = &#123;<span class="string">'a'</span>:<span class="number">15</span>,<span class="string">'b'</span>:<span class="number">88</span>,<span class="string">'c'</span>:<span class="number">56</span>,<span class="string">'d'</span>:<span class="number">77</span>&#125;</span><br><span class="line">dic = sorted(dic.items(),reverse=<span class="literal">True</span>,key = <span class="keyword">lambda</span> item:item[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dir函数和help函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">help函数是用来查看函数和模块用途的详细说明</span></span><br><span class="line"><span class="string">dir函数是用来列出某个类或者模块中的全部内容,包括变量,方法,函数等</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<pre><code>​    </code></pre>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/12/25/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B%E5%8D%8F%E7%A8%8B/">三程总结</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/24/%E5%87%BD%E6%95%B0%E6%80%BB%E7%BB%93/">函数总结</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

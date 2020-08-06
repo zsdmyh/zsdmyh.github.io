@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>三程总结 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">三程总结</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 25, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="线程进程协程"><a href="#线程进程协程" class="headerlink" title="线程进程协程"></a>线程进程协程</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><ol>
+<li><p>线程进程概念</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">进程: 进程是cpu分配资源的最小单位</span></span><br><span class="line"><span class="string">	 就是一个程序在一个数据集上的一次动态执行过程</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">线程:线程是应用程序中工作的最小单元，或者又称之为微进程。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>io密集和cpu密集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">cpu密集: CPU密集型也叫计算密集型, 计算密集型任务的特点是要进行大量的计算</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">io密集： 对于IO密集型任务，任务越多，CPU效率越高，但也有一个限度。常见的大部分任务都是IO密集型任务，比如Web应用。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Linux下进程可以最多开启多少</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">ulimit -u</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="number">4096</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>单进程下可以开启多少个线程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">默认情况下,一个线程的栈要预留1M的内存空间,而一个进程中可用的内存空间只有2G,所以理论上一个进程中最多可以开2048个线程。但是内存当然不可能完全拿来作线程的栈,所以实际数目要比这个值要小。”</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同步和异步</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">同步:必须等待钱一个任务结束,才能进行另一个</span></span><br><span class="line"><span class="string">异步:不用等待另一个结束,就能进行下一个</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><ol>
+<li><p>什么是进程,和程序有什么区别</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">程序可以作为一种软件资料长期保存，而进程则是有一定生命周期的，它能够动态的产生和消亡。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">进程是竞争计算机系统有限资源的基本单位，也是进行处理机调度的基本单位。程序无此该概念。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何创建进程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.fork()：调用完成返回两个返回值，在父进程里返回子进程pid，子进程返回<span class="number">0</span></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line">Process(target, args, kwargs,name)</span><br><span class="line">    target：进程任务函数</span><br><span class="line">    args：进程任务函数元组传参</span><br><span class="line">    kwargs：进程任务函数字典传参</span><br><span class="line">    name：进程名字</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>os.fork的进程创建方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">print(<span class="string">'父进程 ID ='</span>, os.getpid())</span><br><span class="line"><span class="comment"># 创建一个子进程，下面代码会被两个进程执行</span></span><br><span class="line">pid = os.fork()</span><br><span class="line">print(<span class="string">'当前进程 ID ='</span>,os.getpid(),<span class="string">" pid="</span>,pid)</span><br><span class="line"><span class="comment">#根据 pid 值，分别为子进程和父进程布置任务</span></span><br><span class="line"><span class="keyword">if</span> pid == <span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'子进程, ID='</span>,os.getpid(),<span class="string">" 父进程 ID="</span>,os.getppid())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'父进程, ID='</span>,os.getpid(),<span class="string">" pid="</span>,pid)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进程在运行过程中的PCB有哪些重要属性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">pcb是进程实体的一部分,是操作系统中最重要的记录型数据结构.</span></span><br><span class="line"><span class="string">作用是使一个在多道程序环境下不能独立运行的程序,成为一个能独立运行的基本单位.</span></span><br><span class="line"><span class="string">成为能与其他进程并发执行的进程.</span></span><br><span class="line"><span class="string">os是根据PCB对并发执行的进程进行控制和管理的.</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个进程的生命周期</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">进程是一个动态的实体，从创建到消亡，是一个进程的整个生命周期。进程可能</span></span><br><span class="line"><span class="string">会经历各种不同的状态，一般来说有三种状态。</span></span><br><span class="line"><span class="string">+ 就绪态： 进程已经获得了除cpu以外的所有其它资源，在就绪队列中等待cpu调度</span></span><br><span class="line"><span class="string">+ 执行状态： 已经获得cpu以及所有需要的资源正在运行</span></span><br><span class="line"><span class="string">+ 阻塞状态(等待状态)： 正在执行的进程由于某事件而暂时无法继续执行时，放弃处理机而自行阻塞。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>僵尸进程和孤儿进程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">	僵尸进程：僵尸进程是未被回收的进程资源，因为在子进程完成任务之后，父进程没有及时进行回收，那么现在进程会进入僵尸进程，僵尸进程不占用内存，但是会占用进程的PID，而操作系统的pid是有一定大小限制，最多为65535；如果有了6万多个僵尸进程，那么会发现，设备资源的占用率不高，但是无法开启新进程了。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">	孤儿进程：父进程不等待子进程结束，就提前结束了自己；那么此时还在运行的进程就会被变为孤儿进程，孤儿进程没有危害，会被init进程接管，并且进行回收。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进程通信的几种方式及特点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Queue：共享队列</span></span><br><span class="line"><span class="string">Pipe：管道</span></span><br><span class="line"><span class="string">Event：事件、信号</span></span><br><span class="line"><span class="string">Array、value：共享内存</span></span><br><span class="line"><span class="string">UnixSocket：套接字</span></span><br><span class="line"><span class="string">FD：文件句柄</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进程池是什么?怎么创建？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">由于大量的进程需要重复创建时，避免不了创建和回收过程的时间损耗，所以可以通过进程池预先创建好一定数量的进程，直接将任务函数丢进进程池执行即可，这样可以更快速高效利用cpu资源。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Manager</span><br><span class="line"><span class="keyword">from</span> multiprocessing.pool <span class="keyword">import</span> Pool</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(i,l )</span>:</span></span><br><span class="line">    <span class="keyword">with</span> l:</span><br><span class="line">        <span class="keyword">for</span> var <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">            print(i)</span><br><span class="line">        print(<span class="string">'-------------------'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    p = Pool(<span class="number">3</span>)</span><br><span class="line">    l = Manager().Lock()</span><br><span class="line">    <span class="keyword">for</span> var <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">        p.apply_async(func=func,args=(var,l )) <span class="comment"># 非阻塞加入任务</span></span><br><span class="line">    p.close()</span><br><span class="line">    p.join()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ol>
+<li><p>什么是gil锁</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">    一人执行，他人观看。多线程执环境下，一个线程在执行前，解释器首先会为这个线程设置 GIL 锁，只有被加锁的线程才会被 CPU 执行处理，但是这也就导致，在多核处理器下，其 他线程只能是看着这个持有唯一锁的线程工作;线程工作结束，释放锁。python中的线程并不是真正意义上的并发行为，但是python线程可以在io阻塞时，cpu自动切换。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>线程的特点</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">线程共享父进程内的全部资源</span></span><br><span class="line"><span class="string">可并发执行</span></span><br><span class="line"><span class="string">轻型实体</span></span><br><span class="line"><span class="string">线程中的实体基本上不拥有系统资源，只是有一点必不可少的、能保证独立运行的资源。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>线程如何同步</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">通过Lock，Semphore方式都可以使线程进行同步</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread, Lock</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    <span class="comment"># 上锁</span></span><br><span class="line">    mutex.acquire()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 解锁</span></span><br><span class="line">    mutex.release()</span><br><span class="line">    print(<span class="string">"--test1--num=%d"</span> % num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> num</span><br><span class="line">    mutex.acquire()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000000</span>):</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line">    mutex.release()</span><br><span class="line">    print(<span class="string">"--test2--num=%d"</span> % num)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">start_time = time.time()  <span class="comment"># 开始时间</span></span><br><span class="line"><span class="comment"># 创建一把互斥锁，默认没有上锁</span></span><br><span class="line">mutex = Lock()</span><br><span class="line">p1 = Thread(target=test1)</span><br><span class="line">p1.start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># time.sleep(3)   # 取消屏蔽之后 再次运行程序，结果会不一样，，，为啥呢？</span></span><br><span class="line"></span><br><span class="line">p2 = Thread(target=test2)</span><br><span class="line">p2.start()</span><br><span class="line">p1.join()</span><br><span class="line">p2.join()</span><br><span class="line">end_time = time.time()  <span class="comment"># 结束时间</span></span><br><span class="line">print(<span class="string">"num = %d"</span> % num)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"运行时间:%fs"</span> % (end_time - start_time))  <span class="comment"># 结束时间-开始时间</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">输出结果：</span></span><br><span class="line"><span class="string">--test1--num=1000000</span></span><br><span class="line"><span class="string">--test2--num=2000000</span></span><br><span class="line"><span class="string">num = 2000000</span></span><br><span class="line"><span class="string">运行时间:0.287206s</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>线程加锁和gil锁的区别</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">gil锁只是让同一时间只有一个线程执行，但是并没有锁住线程执行的顺序</span></span><br><span class="line"><span class="string">而线程加锁可以让当前线程必须在加锁部分执行结束之后，才可以让下一个需要持有锁的线程继续执行，成为真正的同步</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>线程池如何创建</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing.pool <span class="keyword">import</span> ThreadPool</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为什么io密集型用线程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">假设我们有多个线程都在发网络请求(request， 等response)，一个请求的从发出到接收的过程中cpu大多时间都是在等。</span></span><br><span class="line"><span class="string">所以，当前线程发出请求后，由于不占用cpu资源，可以阻塞等待，然后cpu执行权可以被另外一个线程所享有去发网络请求。</span></span><br><span class="line"><span class="string">IO密集型，单个CPU利用率很低，可能只有10%，所以多线程可以提升cpu利用率,可能10个线程才能打满一个核心， 从而多线程也有并行的效果。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><ol>
+<li><p>协程的意义</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">又称微线程，纤程。协程是一种用户态的轻量级线程</span></span><br><span class="line"><span class="string">线程的切换会保存到CPU的栈里，协程拥有自己的寄存器上下文和栈</span></span><br><span class="line"><span class="string">协程在遇到io阻塞时，会自动进行io切换</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何实现协程</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">()</span>:</span>    </span><br><span class="line">	print(<span class="string">"func1,ok1----&gt;"</span>,time.ctime())</span><br><span class="line">	gr2.switch()    <span class="comment">#程序会切换到func2执行</span></span><br><span class="line">	time.sleep(<span class="number">5</span>)   <span class="comment">#休眠5s</span></span><br><span class="line">	print(<span class="string">"func1,ok2----&gt;"</span>,time.ctime())</span><br><span class="line">	gr2.switch()    <span class="comment">#程序又会切换到func2执行</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func2</span><span class="params">()</span>:</span></span><br><span class="line">	print(<span class="string">"func2,ok1----&gt;"</span>,time.ctime())</span><br><span class="line">	gr1.switch()    <span class="comment">#func2执行到这里会切换回func1执行</span></span><br><span class="line">	time.sleep(<span class="number">3</span>)   <span class="comment">#休眠3s</span></span><br><span class="line">	print(<span class="string">"func2,ok2----&gt;"</span>,time.ctime())</span><br><span class="line"></span><br><span class="line">gr1=greenlet(func1)</span><br><span class="line">gr2=greenlet(func2)</span><br><span class="line"></span><br><span class="line">gr1.switch()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>geven代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">Gevent 是一个第三方库，可以轻松通过 gevent 实现并发同步或异步编程</span></span><br><span class="line"><span class="string">在 gevent 中用到的主要模式是 Greenlet ，它是以 C 扩展模块形式接入 Python 的轻量级协程</span></span><br><span class="line"><span class="string">Gevent 对 Greenlet 又进行了封装，可以自动进行 io 切换</span></span><br><span class="line"><span class="string">Greenlet 全部运行在主程序操作系统进程的内部，但他们被协作式地调度</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/12/25/CKEditor/">CKEditor富文本编辑器</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/25/%E5%9F%BA%E7%A1%80%E5%87%BD%E6%95%B0/">基础函数总结</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

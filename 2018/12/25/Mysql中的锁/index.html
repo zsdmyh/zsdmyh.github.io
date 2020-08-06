@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>Mysql中的锁 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mysql中的锁</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 25, 2018&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Mysql中的锁</p>
+<p>1.什么是锁</p>
+<p>l  锁是计算机协调多个进程或线程并发访问某一资源的机制。</p>
+<p>l 在数据库中，数据也是一种供许多用户共享的资源。如何保证数据并发访问的一致性、有效性是所有数据库必须解决的一个问题，锁冲突也是影响数据库并发访问性能的一个重要因素。</p>
+<p>l 锁对数据库而言显得尤其重要，也更加复杂。</p>
+<p>锁，在现实生活中是为我们想要隐藏于外界所使用的一种工具。在计算机中，是协调多个进程或县城并发访问某一资源的一种机制。在数据库当中，数据也是一种供许多用户共享访问的资源。如何保证数据并发访问的一致性、有效性，是所有数据库必须解决的一个问题，锁的冲突也是影响数据库并发访问性能的一个重要因素。 </p>
+<p>2.锁通常用到什么场景</p>
+<p>我们知道数据库能够支持多用户共同读写，当多用户读写数据的时候，就有可能会出现同一时刻对多个用户对同一条数据的读写，就会出现下面的场景： </p>
+<ol>
+<li><p>大家都只是对这一条数据进行读取</p>
+<p>对于场景1，数据不会变化，大家读到数据都是一样的，    </p>
+</li>
+</ol>
+<p>2.有一部分人想要对这一条数据进行读取，有一部分人想要对这一条数据进行修改</p>
+<ol>
+<li>对于场景2，若读数据的人不关心修改后的数据，只关心当前的值，对于读数据的人是没有影响的，对于修改数据的人，问题就出现了，大家都拿去修改了，然后保存了自己修改的值，这样的话，我们要以谁修改的值为准呢，或者后面保存修改值的人会把前面保存的结果给覆盖掉。 </li>
+</ol>
+<p>到淘宝上买一件商品，商品只有一件库存，这个时候如果还有另一个人买，那么如何解决是你买到还是另一个人买到的问题？ </p>
+<p>3.用锁的好处</p>
+<p><strong>数据库引入了锁的概念，数据可以加锁，用来控制对数据的合理访问</strong>。对于上面的场景3，当用户1想要修改这一条数据时，必须先获取这一条数据的锁，然后在修改，同时用户2想要修改这一条数据时，也要先获取这一条数据的锁，但锁被用户1获取了，他只能等用户1修改完，释放锁后，才能继续修改这一条数据，这样每个人都能修改数据，就不会乱了。 </p>
+<p>出现死锁了会怎样，正常情况下，mysql会检查出死锁，并回滚某一个事务，让另一个事务正常运行。 </p>
+<p>4.怎么用</p>
+<p><strong>数据库的增删改操作默认都会加排他锁，而查询不会加任何锁</strong>。 </p>
+<p>1 共享锁</p>
+<p>对某一资源加共享锁，自身可以读该资源，其他人也可以读该资源（也可以再继续加共享锁，即 共享锁可多个共存），但无法修改。要想修改就必须等所有共享锁都释放完之后。<strong>语法为</strong>： </p>
+<p><strong>select</strong> <strong>*** **from</strong> user <strong>where</strong> id <strong>=</strong>1 <strong>lock</strong> <strong>in</strong> share mode;</p>
+<p>锁，才能加上排他锁，然后才能开始执行 update 语句。 </p>
+<p>2互斥锁/排他锁</p>
+<p>这个标记用来保证在任一时刻，只能有一个<a href="https://baike.baidu.com/item/%E7%BA%BF%E7%A8%8B/103101" target="_blank" rel="noopener">线程</a>访问该<a href="https://baike.baidu.com/item/%E5%AF%B9%E8%B1%A1/2331271" target="_blank" rel="noopener">对象</a>。 </p>
+<p><strong>select</strong> <strong>*** **from</strong> user <strong>where</strong> id <strong>=</strong>1 <strong>for</strong> <strong>update</strong>;</p>
+<p>T1:<em>select \</em> from table lock in share mode*（假设查询会花很长时间，下面的例子也都这么假设）</p>
+<p>T2:<em>update table set column1=’hello’</em></p>
+<p>过程：</p>
+<p>T1运行（并加共享锁)</p>
+<p>T2运行</p>
+<p>If T1还没执行完</p>
+<p>T2等……</p>
+<p>else 锁被释放</p>
+<p>T2执行</p>
+<p>end if</p>
+<p>T2 之所以要等，是因为 T2 在执行 update 前，试图对 table 表加一个排他锁，而数据库规定同一资源上不能同时共存共享锁和排他锁。所以 T2 必须等 T1 执行完，释放了共享</p>
+<p><strong>DDL（Data Definition Languages）语句：</strong>数据定义语言，这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象的定义。常用的语句关键字主要包括 create、drop、alter等。</p>
+<p><strong>DML（Data Manipulation Language）语句：</strong>数据操纵语句，用于添加、删除、更新和查询数据库记录，并检查数据完整性，常用的语句关键字主要包括 insert、delete、udpate 和select 等。(增添改查）</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/mysql/"># mysql</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/05/25/21.Celery-email/">Django+Celery+Rabbitmq实现异步发送邮件</a>
+            
+            
+            <a class="next" rel="next" href="/2018/11/26/Django--09ORM%E6%93%8D%E4%BD%9C/">ORM映射</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
