@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>拉链算法-F5 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">拉链算法-F5</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">五月 26, 2018&nbsp;&nbsp;17:18:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Mysql/">Mysql</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="历史拉链F5算法"><a href="#历史拉链F5算法" class="headerlink" title="历史拉链F5算法"></a>历史拉链F5算法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">该算法会根据指定的比对字段与目标表进行对比，状态更新了的数据对目标表中的数据进行关链</span></span><br><span class="line"><span class="string">重置End_date为$tx_date 新增一条Start_date 开始日期为$tx_date 结束日期为max的记录 </span></span><br><span class="line"><span class="string">对于新增的数据,插入记录的开始日期为$tx_date 结束日期为MAX</span></span><br><span class="line"><span class="string">自动对比找出删除增量,并根据删除数据对目标表进行关链</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">源数据为全量的情形，数据量较大</span></span><br><span class="line"><span class="string">表中的部分字段会被update</span></span><br><span class="line"><span class="string">一个企业拥有5000万会员信息，每天有20万会员资料变更，需要在数仓中记录会员表的历史变化以备分析使用，即每天都要保留一个快照供查询，反映历史数据的情况。在此场景中，需要反映5000万会员的历史变化，如果保留快照，存储两年就需要2X365X5000W条数据存储空间，数据量为365亿，如果存储更长时间，则无法估计需要的存储空间。而利用拉链算法存储，每日只向历史表中添加新增和变化的数据，每日不过20万条，存储4年也只需要3亿存储空间。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><p><strong>1、删除仓库表的加载日期是本次加载日期的数据，用于支持重跑</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> xxx <span class="keyword">where</span> start_dt &gt;= $tx_date;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、修改仓库表的结束日期字段，作用是把结束日期大于加载日期并且不是最大日期的数据的结束日期置为最大日期，使其有效</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">set</span> end_dt= $max_dt <span class="keyword">where</span> end_dt &gt;= $tx_date <span class="keyword">and</span> end_dt &lt;&gt; max_dt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3、创建临时表用于存放从源表中提取的数据</strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">multiset</span> volatile <span class="keyword">table</span> <span class="keyword">new</span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>4、创建临时增量表用于存放增量数据,这里会存放源系统物理删除的数据并使用min_date进行标识</strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">multiset</span> volatile <span class="keyword">table</span> inc;</span><br></pre></td></tr></table></figure>
+
+<p><strong>5、根据一定的规则向临时表中加载源表数据，根据需求而定</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">new</span> <span class="keyword">select</span> ... <span class="keyword">from</span>  xxx <span class="keyword">where</span> ...;</span><br></pre></td></tr></table></figure>
+
+<p><strong>6、用临时表的数据与仓库表数据作对比，将新增和更改的数据存入增量表中</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> inc <span class="keyword">select</span> ... <span class="keyword">from</span> <span class="keyword">new</span> <span class="keyword">where</span> .. <span class="keyword">not</span> <span class="keyword">in</span> ..;</span><br></pre></td></tr></table></figure>
+
+<p><strong>7、用仓库表的有效数据主键跟临时表数据主键作对比 in 仓库表 not in 临时表的即为源系统物理删除的字段，将其end_dt用min_date标识存入增量表(这条数据来源于仓库)</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> .. <span class="keyword">select</span> ... <span class="keyword">from</span> <span class="keyword">where</span> end_dt=$max_date <span class="keyword">and</span> etl_job_num=<span class="number">920</span> <span class="keyword">and</span> (agt_num,agt_modif_num) <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> agt_num,agt_modif_num <span class="keyword">from</span> <span class="keyword">new</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>8、对所有在增量表的并且是有效的数据进行关链处理</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> xxx <span class="keyword">set</span> end_dt=$tx_date <span class="keyword">where</span> ...;</span><br></pre></td></tr></table></figure>
+
+<p> <strong>9、对所有处于增量表中的并且end_dt标识不是min_date的数据进行拉新链处理</strong> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> xxx <span class="keyword">select</span> ... <span class="keyword">from</span> inc <span class="keyword">where</span> end_dt &lt;&gt; $min_date;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><strong>假设在一个用户表中，在2020年07月30日新增了两个用户，如下表所示，则这两条记录的生效时间为当天，由于到2020年07月30日为止,这两条就还没有被修改过，所以失效时间为一个给定的比较大的值，比如9999-12-31</strong> </p>
+<table>
+<thead>
+<tr>
+<th align="center">User_id</th>
+<th align="center">phone</th>
+<th align="center">city</th>
+<th align="center">hobby</th>
+<th align="center">start_time</th>
+<th align="center">end_time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">100</td>
+<td align="center">北京</td>
+<td align="center">1</td>
+<td align="center">2020-07-30</td>
+<td align="center">9999-12-31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">200</td>
+<td align="center">上海</td>
+<td align="center">2</td>
+<td align="center">2020-07-30</td>
+<td align="center">9999-12-31</td>
+</tr>
+</tbody></table>
+<p><strong>第二天(2020-07-31)<u>User_id为1</u>的用户被删除了<u>, User_id为2</u>的用户<u>phone从200</u>修改为<u>202</u>。为了保留历史状态<u>User_id为1</u>的用户<u>end_time被修改为 2020-07-31</u>,<u>User_id为2</u>的用户则变成俩条记录。</strong></p>
+<ol>
+<li><strong>采集当日全量数据到ND(NewDay)表；</strong></li>
+<li><strong>可从历史表中取出昨日全量数据存储到OD(OldDay)表;</strong></li>
+<li><strong>(ND-OD)就是当日新增和变化的数据，也就是当天的增量，用W_I表示；</strong> </li>
+<li><strong>(OD-ND)为状态到此结束需要封链的数据，用W_U表示；</strong>  </li>
+<li><strong>将W_I表的内容全部插入到历史表中，这些是新增记录，start_date为当天，而end_date为max值；</strong></li>
+<li><strong>对历史表进行W_U部份的更新操作，start_date保持不变，而end_date改为当天，也就是关链操作；</strong></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">User_id</th>
+<th align="center">phone</th>
+<th align="center">city</th>
+<th align="center">hobby</th>
+<th align="center">start_time</th>
+<th align="center">end_time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">100</td>
+<td align="center">北京</td>
+<td align="center">1</td>
+<td align="center">2020-07-30</td>
+<td align="center">2020-07-31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">200</td>
+<td align="center">上海</td>
+<td align="center">2</td>
+<td align="center">2020-07-30</td>
+<td align="center">2020-07-31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">202</td>
+<td align="center">上海</td>
+<td align="center">2</td>
+<td align="center">2020-07-30</td>
+<td align="center">9999-12-31</td>
+</tr>
+</tbody></table>
+<p><strong>第三天又增加了用户3,则用户表数据格式如下</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">User_id</th>
+<th align="center">phone</th>
+<th align="center">city</th>
+<th align="center">hobby</th>
+<th align="center">start_time</th>
+<th align="center">end_time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">100</td>
+<td align="center">北京</td>
+<td align="center">1</td>
+<td align="center">2020-07-30</td>
+<td align="center">2020-07-31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">200</td>
+<td align="center">上海</td>
+<td align="center">2</td>
+<td align="center">2020-07-30</td>
+<td align="center">2020-07-31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">202</td>
+<td align="center">上海</td>
+<td align="center">2</td>
+<td align="center">2020-07-30</td>
+<td align="center">9999-12-31</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">500</td>
+<td align="center">南京</td>
+<td align="center">3</td>
+<td align="center">2020-08-01</td>
+<td align="center">9999-12-31</td>
+</tr>
+</tbody></table>
+<p><strong>如果要查询最新的数据，那么只要查询失效时间为9999-12-31的数据即可，如果要查7月30号的历史数据，则筛选生效时间&lt;= 2020-07-30并且失效时间&gt;2020-07-30的数据即可。如果查询7月31号的数据，那么筛选条件则是生效时间&lt;=2020-07-31并且失效时间&gt;2020-07-31</strong></p>
+<ol>
+<li><p><strong>获取表字段信息</strong></p>
+</li>
+<li><p><strong>清除cur表数据</strong></p>
+</li>
+<li><p><strong>将odm的数据插入到cur表中,从中将md5,结束日期设为2099 开始日期为当前日期</strong></p>
+</li>
+<li><hr>
+</li>
+<li><p><strong>删除大于等于当前日期的数据防止重跑</strong></p>
+</li>
+<li><p><strong>将重跑后的数据的结束日期设为有效日期(对删除后的数据进行开链)</strong></p>
+</li>
+<li><p><strong>进行封链 将hdm中的有效数据和cur表做对比,找出hdm有效数据中和cur表和md5不同的数据,就是有改变的数据,将有改变的数据的结束日期改为当前日期</strong></p>
+</li>
+<li><p><strong>进行开链 将cur表和hdm表中有效数据做对比,找出cur中和hdm有效数据不同数据的md5值,就是最新数据,将这些数据插入到hdm中</strong></p>
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/mysql/"># mysql</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2018/05/26/md5/">md5</a>
+            
+            
+            <a class="next" rel="next" href="/2018/05/11/MySQL%E7%9A%84%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95/">mysql的索引类型及创建索引</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
