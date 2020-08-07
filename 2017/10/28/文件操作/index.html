@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>文件操作 | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">文件操作</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 28, 2017&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/python/">python</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h4 id="文本文件"><a href="#文本文件" class="headerlink" title="文本文件"></a>文本文件</h4><ol>
+<li><p>文件操作权限有几种?各有什么特点？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">r 只读 </span></span><br><span class="line"><span class="string">w 新建只写   </span></span><br><span class="line"><span class="string">a 追加 </span></span><br><span class="line"><span class="string">r+,w+,a+ 都是以读写方式打开</span></span><br><span class="line"><span class="string">rb,wb,ab 都是二进制读写</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>什么是读写指针?用来干什么的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">在文件读取过程中使用了指针的概念,在一开始指针都是在文件的开头,随着读写的进行指针一步步后移</span></span><br><span class="line"><span class="string">用于移动文件读取指针到指定的位置</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如何调整一个文件的读写指针？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">file.seek(offset,模式控制)</span></span><br><span class="line"><span class="string">fooset:字节的偏移量,可为负数</span></span><br><span class="line"><span class="string">模式控制：0从文件开头计算，1从当前位置计算,2从文件尾部计算</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>什么是缓冲区？为什么要有缓冲区?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">缓冲区是用以暂时存放读写期间的文件数据而在内存区预留的一定空间</span></span><br><span class="line"><span class="string">将文件内容写入到硬件设备时候，使用系统调用，这类IO操作时间长，为了减小IO操作，通常会使用缓冲区</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对一个文件刷新缓冲区有哪些方式？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">file.flush()</span></span><br><span class="line"><span class="string">file.close()</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="XML-json"><a href="#XML-json" class="headerlink" title="XML/json"></a>XML/json</h4><ol>
+<li><p>什么是XML?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">xml即可扩展标记语言，它可以用来标记数据、定义数据类型，是一种允许用户对自己的标记语言进行定义的源语言。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>XML文件如何读写？</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding = "UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Info</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"0"</span> <span class="attr">Name</span>=<span class="string">"保留"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"1"</span> <span class="attr">Name</span>=<span class="string">"姓名"</span>&gt;</span>某某人<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"2"</span> <span class="attr">Name</span>=<span class="string">"出生地"</span>&gt;</span>未知省未知市<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"3"</span> <span class="attr">Name</span>=<span class="string">"籍贯"</span>&gt;</span>未知省未知县<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"4"</span> <span class="attr">Name</span>=<span class="string">"本市(县)其他住址"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"5"</span> <span class="attr">Name</span>=<span class="string">"性别"</span>&gt;</span>男<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"6"</span> <span class="attr">Name</span>=<span class="string">"民族"</span>&gt;</span>汉族<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"7"</span> <span class="attr">Name</span>=<span class="string">"出生日期"</span>&gt;</span>2999-11-14<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">Field</span> <span class="attr">Index</span>=<span class="string">"8"</span> <span class="attr">Name</span>=<span class="string">"身份证件编号"</span>&gt;</span>123456789012345678<span class="tag">&lt;/<span class="name">Field</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Info</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"> </span><br><span class="line">tree = ET.parse(<span class="string">'01.xml'</span>)</span><br><span class="line">root = tree.getroot()</span><br><span class="line"><span class="keyword">for</span> node <span class="keyword">in</span> list(root):</span><br><span class="line">    print(node.tag, node.get(<span class="string">'Index'</span>), node.get(<span class="string">'Name'</span>), node.text)</span><br><span class="line">    <span class="keyword">if</span> node.get(<span class="string">'Name'</span>) == <span class="string">"姓名"</span>:</span><br><span class="line">    	node.text = <span class="string">"某某人不在家"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(<span class="string">'\n'</span>)</span><br><span class="line">print(<span class="string">'修改后：'</span>)</span><br><span class="line"><span class="keyword">for</span> node <span class="keyword">in</span> list(root):</span><br><span class="line">	print(node.tag, node.get(<span class="string">'Index'</span>), node.get(<span class="string">'Name'</span>), node.text)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">运行结果：</span></span><br><span class="line"><span class="string">Field 0 保留 None</span></span><br><span class="line"><span class="string">Field 1 姓名 某某人</span></span><br><span class="line"><span class="string">Field 2 出生地 未知省未知市</span></span><br><span class="line"><span class="string">Field 3 籍贯 未知省未知县</span></span><br><span class="line"><span class="string">Field 4 本市(县)其他住址 None</span></span><br><span class="line"><span class="string">Field 5 性别 男</span></span><br><span class="line"><span class="string">Field 6 民族 汉族</span></span><br><span class="line"><span class="string">Field 7 出生日期 2999-11-14</span></span><br><span class="line"><span class="string">Field 8 身份证件编号 123456789012345678</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">修改后：</span></span><br><span class="line"><span class="string">Field 0 保留 None</span></span><br><span class="line"><span class="string">Field 1 姓名 某某人不在家</span></span><br><span class="line"><span class="string">Field 2 出生地 未知省未知市</span></span><br><span class="line"><span class="string">Field 3 籍贯 未知省未知县</span></span><br><span class="line"><span class="string">Field 4 本市(县)其他住址 None</span></span><br><span class="line"><span class="string">Field 5 性别 男</span></span><br><span class="line"><span class="string">Field 6 民族 汉族</span></span><br><span class="line"><span class="string">Field 7 出生日期 2999-11-14</span></span><br><span class="line"><span class="string">Field 8 身份证件编号 123456789012345678</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>三种方式的区别异同</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">xml.etree.ElementTree  从Python3.3开始会自动寻找可用的C库来加速。</span></span><br><span class="line"><span class="string">xml.dom.* 以利用DOM 提供的不同的函数来读取或修改文档的内容和结构，也可以把修改过的内容写入xml文件。</span></span><br><span class="line"><span class="string">xml.sax.*  SAX是一种基于事件驱动的API，利用SAX解析XML牵涉到两个部分：解析器和事件处理器。其中解析器负责读取XML文档，并向事件处理器发送事件，如元素开始跟元素结束事件；而事件处理器则负责对事件作出相应，对传递的XML数据进行处理</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>什么是JSON？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json是类似xml的一种通用格式，在很多地方都可以用。</span></span><br><span class="line"><span class="string">json相比xml，数据量更小，而且可以很方便的和解释型语言的结构相互转换。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>json操作文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.dumps（）   </span></span><br><span class="line"><span class="string">该函数是将 Python 对象编码成 JSON 字符串</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">d=&#123;<span class="string">'谦谦'</span>:&#123;<span class="string">'sex'</span>:<span class="string">'男'</span>,<span class="string">'addr'</span>:<span class="string">'北京'</span>,<span class="string">'age'</span>:<span class="number">34</span>&#125;,<span class="string">'千千'</span>:&#123; <span class="string">'sex'</span>:<span class="string">'女'</span>,<span class="string">'addr'</span>:<span class="string">'北京'</span>, <span class="string">'age'</span>:<span class="number">34</span>&#125;,&#125;</span><br><span class="line">print(json.dumps(d,ensure_ascii=<span class="literal">False</span>,indent=<span class="number">4</span>))  </span><br><span class="line"><span class="comment">#字典转成json,字典转换成字符串 加上ensure_ascii=False以后，可以识别中文， indent=4是间隔4个空格显示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#以上代码转换的结果是：</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"谦谦"</span>: &#123;</span><br><span class="line">        <span class="string">"sex"</span>: <span class="string">"男"</span>,</span><br><span class="line">        <span class="string">"addr"</span>: <span class="string">"北京"</span>,</span><br><span class="line">        <span class="string">"age"</span>: <span class="number">34</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"千千"</span>: &#123;</span><br><span class="line">        <span class="string">"sex"</span>: <span class="string">"女"</span>,</span><br><span class="line">        <span class="string">"addr"</span>: <span class="string">"北京"</span>,</span><br><span class="line">        <span class="string">"age"</span>: <span class="number">34</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.dump（）</span></span><br><span class="line"><span class="string">该函数是可以将 Python 对象编码成 JSON 字符串，并自己帮你写入到文件中，不需要再单独写文件</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> json                                                                         </span><br><span class="line">d=&#123;<span class="string">'谦谦'</span>:&#123;<span class="string">'sex'</span>:<span class="string">'男'</span>,<span class="string">'addr'</span>:<span class="string">'北京'</span>,<span class="string">'age'</span>:<span class="number">34</span>&#125;,<span class="string">'千千'</span>:&#123; <span class="string">'sex'</span>:<span class="string">'女'</span>,<span class="string">'addr'</span>:<span class="string">'北京'</span>, <span class="string">'age'</span>:<span class="number">34</span>&#125;,&#125;  </span><br><span class="line">fw =open(<span class="string">'user_info.json'</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>)  </span><br><span class="line"><span class="comment">#打开一个名字为‘user_info.json’的空文件</span></span><br><span class="line">json.dump(d,fw,ensure_ascii=<span class="literal">False</span>,indent=<span class="number">4</span>)</span><br><span class="line"><span class="comment">#字典转成json,字典转换成字符串,不需要写文件，自己帮你将转成的json字符串写入到‘user_info.json’的文件中</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.loads（）函数</span></span><br><span class="line"><span class="string">函数把json串变成python的数据类型</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">f =open(<span class="string">'product.json'</span>,encoding=<span class="string">'utf-8'</span>)  <span class="comment">#打开‘product.json’的json文件</span></span><br><span class="line">res=f.read()  <span class="comment">#读文件</span></span><br><span class="line">print(json.loads(res))<span class="comment">#把json串变成python的数据类型：字典</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">json.load()函数</span></span><br><span class="line"><span class="string">该函数把json串变成python的数据类型：字典，传一个文件对象，它会帮你读文件，不需要再单独读文件</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> json   </span><br><span class="line">f =open(<span class="string">'product.json'</span>,encoding=<span class="string">'utf-8'</span>)    <span class="comment">#打开文件 </span></span><br><span class="line">print(json.load(f))</span><br><span class="line"><span class="comment">#把json串变成python的数据类型：字典，传一个文件对象，它会帮你读文件，不需要再单独读文件</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="pickle-shelve"><a href="#pickle-shelve" class="headerlink" title="pickle/shelve"></a>pickle/shelve</h4><ol>
+<li><p>持久化是什么?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">持久化(Persistence),即把数据保存到可永久保存的存储设备中（硬盘。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pickle又是啥?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">pickle提供了一个简单的持久化功能。可以将对象以文件的形式存放在磁盘上。</span></span><br><span class="line"><span class="string">pickle模块只能在python中使用，python中几乎所有的数据类型（列表，字典，集合，类等）都可以用pickle来序列化</span></span><br><span class="line"><span class="string">pickle序列化后的数据，可读性差，人一般无法识别。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pickle的操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">序列化方法pickle.dump()</span></span><br><span class="line"><span class="string">该方法实现的是将序列化后的对象obj以二进制形式写入文件file中，进行保存。它的功能等同于 Pickler(file, protocol).dump(obj)。</span></span><br><span class="line"><span class="string">关于参数file，有一点需要注意，必须是以二进制的形式进行操作（写入）</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">pickle.dump(obj, file, protocol=<span class="literal">None</span>,*,fix_imports=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">序列化方法pickle.dumps()</span></span><br><span class="line"><span class="string">pickle.dumps()方法跟pickle.dump()方法的区别在于，pickle.dumps()方法不需要写入文件中，它是直接返回一个序列化的bytes对象。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">pickle.dumps(obj, protocol=<span class="literal">None</span>,*,fix_imports=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">反序列化方法 pickle.load()</span></span><br><span class="line"><span class="string">该方法实现的是将序列化的对象从文件file中读取出来。它的功能等同于 Unpickler(file).load()。</span></span><br><span class="line"><span class="string">关于参数file，有一点需要注意，必须是以二进制的形式进行操作（读取）。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">pickle.load(file, *,fix_imports=<span class="literal">True</span>, encoding=<span class="string">"ASCII"</span>. errors=<span class="string">"strict"</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">反序列化方法 pickle.loads()</span></span><br><span class="line"><span class="string">pickle.loads()方法跟pickle.load()方法的区别在于，pickle.loads()方法是直接从bytes对象中读取序列化的信息，而非从文件中读取。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">pickle.loads(bytes_object, *,fix_imports=<span class="literal">True</span>, encoding=”ASCII”. errors=”strict”)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>shelve和pickle的区别？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">pickle:</span></span><br><span class="line"><span class="string">    1. 仅支持python，且版本要求比较严格</span></span><br><span class="line"><span class="string">    2. 可以用来保存几乎所有的数据类型，包括对象（这个很好用）</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">shelve:</span></span><br><span class="line"><span class="string">    1.仅支持python</span></span><br><span class="line"><span class="string">    2.可以多次load/dump，当做类似变量使用，更少发生数据丢失的问题</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>shelve咋用?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.创建一个shelf对象，直接使用open函数即可</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> shelve</span><br><span class="line">s = shelve.open(<span class="string">'test_shelf.db'</span>)         <span class="comment">#</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s[<span class="string">'kk'</span>] = &#123;<span class="string">'int'</span>: <span class="number">10</span>, <span class="string">'float'</span>: <span class="number">9.5</span>, <span class="string">'String'</span>: <span class="string">'Sample data'</span>&#125;</span><br><span class="line">    s[<span class="string">'MM'</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.如果想要再次访问这个shelf，只需要再次shelve.open()就可以了，然后我们可以像使用字典一样来使用这个shelf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> shelve</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    s = shelve.open(<span class="string">'test_shelf.db'</span>)</span><br><span class="line">    value = s[<span class="string">'kk'</span>]</span><br><span class="line">    print(value)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.对shelf对象，增、删、改操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> shelve</span><br><span class="line">s = shelve.open(<span class="string">'test_shelf.db'</span>, flag=<span class="string">'w'</span>, writeback=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 增加</span></span><br><span class="line">    s[<span class="string">'QQQ'</span>] = <span class="number">2333</span></span><br><span class="line">    <span class="comment"># 删除</span></span><br><span class="line">    <span class="keyword">del</span> s[<span class="string">'MM'</span>]</span><br><span class="line">    <span class="comment"># 修改</span></span><br><span class="line">    s[<span class="string">'kk'</span>] = &#123;<span class="string">'String'</span>: <span class="string">'day day up'</span>&#125;</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    s.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：flag设置为‘r’-只读模式，当程序试图去修改一个以只读方式打开的DB时，将会抛一个访问错误的异常。异常的具体类型取决于anydbm这个模块在创建DB时所选用的DB。异常举例：anydbm.error: need ‘c’ or ‘n’ flag to open new db</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.循环遍历shelf对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> shelve</span><br><span class="line">s = shelve.open(<span class="string">'test_shelf.db'</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 方法一：</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> s.items():</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'键[&#123;&#125;] = 值[&#123;&#125;]'</span>.format(item[<span class="number">0</span>], s[item[<span class="number">0</span>]]))</span><br><span class="line">    <span class="comment"># 方法二：</span></span><br><span class="line">    <span class="keyword">for</span> key, value <span class="keyword">in</span> s.items():</span><br><span class="line">        print(key, value)</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    s.close()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="CSV-execl"><a href="#CSV-execl" class="headerlink" title="CSV/execl"></a>CSV/execl</h4><ol>
+<li><p>CSV文件如何读写?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">csv读文件</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line">f = csv.reader(open(<span class="string">'csv_test.csv'</span>,<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>))</span><br><span class="line"> 	<span class="keyword">for</span> i <span class="keyword">in</span> f:</span><br><span class="line">    print(i)</span><br><span class="line">        </span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">csv写文件</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">data = [</span><br><span class="line">    (<span class="string">"测试1"</span>,<span class="string">'软件测试工程师'</span>),</span><br><span class="line">    (<span class="string">"测试2"</span>,<span class="string">'软件测试工程师'</span>),</span><br><span class="line">    (<span class="string">"测试3"</span>,<span class="string">'软件测试工程师'</span>),</span><br><span class="line">    (<span class="string">"测试4"</span>,<span class="string">'软件测试工程师'</span>),</span><br><span class="line">    (<span class="string">"测试5"</span>,<span class="string">'软件测试工程师'</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"> <span class="keyword">with</span> open(<span class="string">'csv_test.csv'</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">     csv_fp = csv.writer(fp)</span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> data:</span><br><span class="line">         csv_fp.writerow(i)</span><br><span class="line"> fp.close()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>咋通过定义表头进行读写?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'names.csv'</span>, <span class="string">'w'</span>) <span class="keyword">as</span> csvfile:</span><br><span class="line">    fieldnames = [<span class="string">'first_name'</span>, <span class="string">'last_name'</span>]<span class="comment">#指定标题列 </span></span><br><span class="line">    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)</span><br><span class="line">    writer.writeheader()</span><br><span class="line">写入一行表头：writer.writeheader()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>execl文件咋操作？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">openpyxl并不是Python 3预装的库，需要我们手动安装，很简单打开命令行窗口输入pip install openpyxl</span></span><br><span class="line"><span class="string">实现对excel文件的读写功能</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">1.xlwt：excel文件的写入</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">2.xlrd：excel文件的读取</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">3.openpyxl:对xlsm、xlsx等excel文件的读写</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>xlrd和xlwt</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">xlrd  对xls等excel文件的读取</span></span><br><span class="line"><span class="string">可以进行的操作有：</span></span><br><span class="line"><span class="string">读取有效单元格的行数、列数</span></span><br><span class="line"><span class="string">读取指定行（列）的所有单元格的值</span></span><br><span class="line"><span class="string">读取指定单元格的值</span></span><br><span class="line"><span class="string">读取指定单元格的数据类型</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line">data = xlrd.open_workbook(<span class="string">'formatting.xls'</span>)</span><br><span class="line">table = data.sheets()[<span class="number">0</span>]</span><br><span class="line">print(table)</span><br><span class="line">table = data.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">rows = table.nrows  <span class="comment"># 行数</span></span><br><span class="line">cols = table.ncols  <span class="comment"># 列数</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(rows):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> table.row_values(i):</span><br><span class="line">        print(j,end=<span class="string">'\t'</span>)</span><br><span class="line">    print()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">xlwt excel文件的写入</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line">workbook = xlwt.Workbook()</span><br><span class="line">worksheet = workbook.add_sheet(<span class="string">'my worksheet'</span>,cell_overwrite_ok=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># style = xlwt.XFStyle() # 初始化样式</span></span><br><span class="line"><span class="comment"># font = xlwt.Font() # 为样式创建字体</span></span><br><span class="line"><span class="comment"># font.name = 'Times New Roman'</span></span><br><span class="line"><span class="comment"># font.bold = True # 黑体</span></span><br><span class="line"><span class="comment"># font.underline = True # 下划线</span></span><br><span class="line"><span class="comment"># font.italic = True # 斜体字</span></span><br><span class="line"><span class="comment"># style.font = font # 设定样式</span></span><br><span class="line">heng = [<span class="string">'姓名'</span>,<span class="string">'年龄'</span>]</span><br><span class="line">msg = [<span class="string">'1'</span>,<span class="string">'2'</span>]</span><br><span class="line">age = [<span class="number">15</span>,<span class="number">18</span>]</span><br><span class="line"><span class="comment">#write(行,列)</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(heng)):  <span class="comment">#写入第一行</span></span><br><span class="line">    worksheet.write(<span class="number">0</span>,i,heng[i]) <span class="comment"># 不带样式的写入</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(msg)): <span class="comment">#写入列</span></span><br><span class="line">    worksheet.write( i+<span class="number">1</span>,<span class="number">0</span>,msg[i]) </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(age)): <span class="comment">#写入列</span></span><br><span class="line">    worksheet.write( i+<span class="number">1</span>,<span class="number">1</span>,age[i]) </span><br><span class="line">workbook.save(<span class="string">'formatting.xls'</span>) <span class="comment"># 保存文件</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>openpyxl</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">openpyxl  对xlsm、xlsx等excel文件的读写</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"></span><br><span class="line"><span class="comment">#读取Excel文档</span></span><br><span class="line"><span class="comment"># 文件必须是xlsx格式，如果是其他格式在执行前可利用win32辅助转化</span></span><br><span class="line"><span class="comment">#通过调用方法**load_workbook(filename)**进行文件读取，该方法中还有一个read_only参数用于设置文件打开方式，默认为可读可写，该方法最终将返回一个workbook的数据对象</span></span><br><span class="line">wb = openpyxl.load_workbook(‘example.xlsx’)</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取工作表</span></span><br><span class="line"><span class="comment"># 获取所有工作表名(返回一个列表)</span></span><br><span class="line">sheets = wb.get_sheet_names()</span><br><span class="line"><span class="comment"># 获取某一特定的工作表</span></span><br><span class="line">sheet = wb.get_sheet_by_name(<span class="string">'Sheet2'</span>)</span><br><span class="line"><span class="comment"># 获取工作表的表名</span></span><br><span class="line">sheet_name = sheet.title</span><br><span class="line"><span class="comment"># 一般来说，表格大多数用到的是打开时显示的工作表，这时可以用active来获取当前工作表</span></span><br><span class="line">sheet = wb.active</span><br><span class="line"></span><br><span class="line"><span class="comment">#获取单元格</span></span><br><span class="line"><span class="comment"># 通过sheet[列行名]获取</span></span><br><span class="line">a = sheet[<span class="string">'A2'</span>]</span><br><span class="line"><span class="comment"># 通过sheet.cell(row,column)获取</span></span><br><span class="line">b = sheet.cell(<span class="number">1</span>, <span class="number">2</span>)  <span class="comment"># 即sheet['B1']</span></span><br><span class="line"><span class="comment"># 获取单元格内容</span></span><br><span class="line">print(a.value)</span><br><span class="line"><span class="comment"># 获取单元格所在列和行</span></span><br><span class="line">print(‘a <span class="keyword">is</span> ’+str((a.column,a.row)))</span><br><span class="line"><span class="comment">#需要注意的是，sheet.cell(row,column)中参数分别是行和列，且必须为整数，如果列为英文字母，可以利用 openpyxl.utils 中的 column_index_from_string**(char)进行字母数字的转化。顺便一说，同理也可以利用get_column_letter(number)**进行数字字母间的转化</span></span><br><span class="line"><span class="keyword">from</span> openpyxl.utils <span class="keyword">import</span> get_column_letter, column_index_from_string</span><br><span class="line"><span class="comment"># 对列进行字母/数字转化</span></span><br><span class="line">c_num = column_index_from_string(<span class="string">'B'</span>)  <span class="comment"># c_num = 2</span></span><br><span class="line">c_char = get_column_letter(<span class="number">5</span>)          <span class="comment"># c_char = 'E‘</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#获取行和列</span></span><br><span class="line"><span class="comment"># 对行进行遍历,输出A1,B1,C1</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> sheet.rows:</span><br><span class="line">    <span class="keyword">for</span> cell <span class="keyword">in</span> row:</span><br><span class="line">        print(cell.value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对列进行遍历,输出A1,A2,A3</span></span><br><span class="line"><span class="keyword">for</span> column <span class="keyword">in</span> sheet.columns:</span><br><span class="line">    <span class="keyword">for</span> cell <span class="keyword">in</span> column:</span><br><span class="line">        print(cell.value)</span><br><span class="line"><span class="comment"># 获得最大列和最大行</span></span><br><span class="line">print(sheet.max_row)</span><br><span class="line">print(sheet.max_column)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">写文件</span></span><br><span class="line"><span class="string">在开头读取时已经介绍，默认的打开方式为可读可写，那么使用**load_workbook(filename)读取Excel文档后也就可以直接写入了。另外，如果需要新建一个Excel文件，可以使用Workbook()方法，同时它会自动提供一个sheet工作表。对于删除一个工作表，则可以使用workbook对象的remove(sheet)**方法删除</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="comment"># 新建一个Excel文档</span></span><br><span class="line">wb = openpyxl.Workbook()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除某个工作表 </span></span><br><span class="line">wb.remove(sheet)</span><br><span class="line"></span><br><span class="line"><span class="comment">#写入单元格</span></span><br><span class="line"><span class="comment"># 直接赋值</span></span><br><span class="line">sheet[<span class="string">'A1'</span>].value = <span class="number">2</span></span><br><span class="line"><span class="comment"># 公式赋值</span></span><br><span class="line">sheet[<span class="string">'A6'</span>].value = <span class="string">'=SUM(A1:A5)'</span></span><br><span class="line"><span class="comment"># 写入一行</span></span><br><span class="line">row = [<span class="number">1</span> ,<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">sheet.append(row)</span><br><span class="line"><span class="comment"># 写入多行</span></span><br><span class="line">rows = [</span><br><span class="line">    [<span class="string">'ID'</span>, <span class="string">'Name'</span>, <span class="string">'Department'</span>],</span><br><span class="line">    [<span class="string">'001'</span>, <span class="string">'Lee'</span>,<span class="string">'CS'</span>],</span><br><span class="line">    [<span class="string">'002'</span>, <span class="string">'John'</span>,<span class="string">'MA'</span>],</span><br><span class="line">    [<span class="string">'003'</span>, <span class="string">'Amy'</span>,<span class="string">'IS'</span>]</span><br><span class="line">]</span><br><span class="line">sheet.append(rows)</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存文件</span></span><br><span class="line"><span class="comment"># 保存文件至当前目录</span></span><br><span class="line">wb.save(<span class="string">'new_file.xlsx'</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="压缩文件"><a href="#压缩文件" class="headerlink" title="压缩文件"></a>压缩文件</h4><ol>
+<li><p>常见压缩格式有哪些?</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">zip，rar，7z</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>gzip,tarfile,zipfile,rarfile</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">gizp</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="comment">#gzip压缩文件:</span></span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line">f = open(<span class="string">'1.text'</span>,<span class="string">'rb'</span>)</span><br><span class="line">a = gzip.open(<span class="string">'zlib.gz'</span>,<span class="string">'wb'</span>)</span><br><span class="line">a.writelines(f)</span><br><span class="line"></span><br><span class="line"><span class="comment">#gzip解压缩文件</span></span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line">g = gzip.GzipFile(mode=<span class="string">"rb"</span>, fileobj=open(<span class="string">'zlib.gz'</span>, <span class="string">'rb'</span>))</span><br><span class="line">open(<span class="string">"test.txt"</span>, <span class="string">"wb"</span>).write(g.read())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">tarfile </span></span><br><span class="line"><span class="string">本身不是压缩算法，只是打包工具，但可以在打包后调用压缩算法进行压缩，这就是我们常常见到的 tar.gz 格式。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> tarfile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包（压缩）文件</span></span><br><span class="line">t = tarfile.open(<span class="string">'demo.tar'</span>, <span class="string">'w'</span>)</span><br><span class="line"><span class="comment"># arcname是可以重命名</span></span><br><span class="line">t.add(<span class="string">'./dir_1/file_1.zip'</span>, arcname=<span class="string">'file_1.zip'</span>)</span><br><span class="line">t.add(<span class="string">'./dir_1/file_2.zip'</span>, arcname=<span class="string">'file_2.zip'</span>)</span><br><span class="line">t.close()</span><br><span class="line"><span class="comment"># 解压文件</span></span><br><span class="line">t = tarfile.open(<span class="string">'demo.tar'</span>, <span class="string">'r'</span>)</span><br><span class="line"><span class="comment"># 可以指定解压路径</span></span><br><span class="line">t.extractall()</span><br><span class="line">t.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#而要压缩成 tar.gz ，则需要对文件打开方式进行调整</span></span><br><span class="line"><span class="comment"># 压缩</span></span><br><span class="line">t = tarfile.open(<span class="string">'demo.tar.gz'</span>, <span class="string">'w:gz'</span>)</span><br><span class="line">t.add(<span class="string">'./dir_1/file_1.txt'</span>, arcname=<span class="string">'file_1.txt'</span>)</span><br><span class="line">t.close()</span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">t = tarfile.open(<span class="string">'demo.tar.gz'</span>, <span class="string">'r:gz'</span>)</span><br><span class="line">t.extractall()</span><br><span class="line">t.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">zipfile  是公开的一种压缩算法，但压缩比不高。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"></span><br><span class="line"><span class="comment"># 压缩文件</span></span><br><span class="line">z = zipfile.ZipFile(<span class="string">'demo.zip'</span>, <span class="string">'w'</span>)</span><br><span class="line">z.write(<span class="string">'file_1.txt'</span>)</span><br><span class="line">z.write(<span class="string">'file_2.txt'</span>)</span><br><span class="line">z.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压文件</span></span><br><span class="line">z = zipfile.ZipFile(<span class="string">'demo.zip'</span>, <span class="string">'r'</span>)</span><br><span class="line"><span class="comment"># 可以指定解压路径</span></span><br><span class="line">z.extractall()</span><br><span class="line">z.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">rarfile 是商业算法，带专利的，不用随便使用，但压缩比很高。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="keyword">import</span> rarfile</span><br><span class="line">path = <span class="string">"E:\\New\\New.rar"</span></span><br><span class="line">path2 = <span class="string">"E:\\New"</span></span><br><span class="line"> </span><br><span class="line">rf = rarfile.RarFile(path)        　<span class="comment">#待解压文件</span></span><br><span class="line">rf.extractall(path2)               <span class="comment">#解压指定文件路径</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>zipstream</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">-----</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/python/"># python</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2017/10/29/%E7%BA%BF%E7%A8%8B%E8%BF%9B%E7%A8%8B%E5%8D%8F%E7%A8%8B/">三程总结</a>
+            
+            
+            <a class="next" rel="next" href="/2017/10/27/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

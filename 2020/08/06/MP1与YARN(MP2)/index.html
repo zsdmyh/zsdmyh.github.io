@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="马云昊">
+
+
+
+
+
+<title>MP1和Yarn(mp2) | MaYunhao&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">马云昊的技术博客</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">马云昊的技术博客</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">关于我</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MP1和Yarn(mp2)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">马云昊</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 6, 2020&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="一-Hadoop1-0中MapReduce的组成"><a href="#一-Hadoop1-0中MapReduce的组成" class="headerlink" title="一.Hadoop1.0中MapReduce的组成"></a>一.Hadoop1.0中MapReduce的组成</h2><h6 id="1-从功能模块角度"><a href="#1-从功能模块角度" class="headerlink" title="1.从功能模块角度"></a>1.从功能模块角度</h6><ul>
+<li><strong>客户端</strong>：提交MapReduce作业；</li>
+<li><strong>JobTracker</strong>:</li>
+</ul>
+<p>1.作业调度：将一个作业（Job）分成若干个子任务分发到taskTraker中去执行</p>
+<p>2.任务监控：TaskTracker发送心跳给JobTracker报告自己的运行状态，以让JobTracker能够监控到他</p>
+<p>3.资源管理：每个任务向JobTracker申请资源</p>
+<p>4.监控过程中发现失败或者运行过慢的任务，对他进行重新启动</p>
+<ul>
+<li><strong>TaskTraker</strong>:</li>
+</ul>
+<p>主动发送心跳给jobTracker并与JobTracker他通信，从而接受到JobTracker发送过来需要执行的任务</p>
+<h6 id="2-从架构的角度"><a href="#2-从架构的角度" class="headerlink" title="2.从架构的角度"></a>2.从架构的角度</h6><ol>
+<li>编程模型（新旧API）</li>
+<li>运行环境（JobTracker和TaksTracker）</li>
+<li>数据处理引擎（MapTask和ReduceTask）</li>
+</ol>
+<h2 id="二-MapReduce-hadoop1-0-的资源管理模型"><a href="#二-MapReduce-hadoop1-0-的资源管理模型" class="headerlink" title="二.MapReduce(hadoop1.0)的资源管理模型"></a>二.MapReduce(hadoop1.0)的资源管理模型</h2><h6 id="2-1MapReduce的资源组成由两部分组成"><a href="#2-1MapReduce的资源组成由两部分组成" class="headerlink" title="2.1MapReduce的资源组成由两部分组成"></a>2.1MapReduce的资源组成由两部分组成</h6><ul>
+<li><strong>资源表示模型</strong></li>
+</ul>
+<p>用于描述资源表示形式，Hadoop1.0使用“槽位（slot）”组织各个节点的资源，为了简化资源的管理，Hadoop将各个节点上资源（CPU、内存、网络IO、磁盘IO等等）等量切分成若干份，每一份用“slot”表示，同时规定一个task可根据实际情况需要占用多个”slot”。</p>
+<p>简单的说：hadoop1.0将多维度的资源进行了抽象，使用“slot”来表示，从而简化对资源的管理。</p>
+<ul>
+<li><strong>资源分配模型</strong></li>
+</ul>
+<p>而资源分配模型则决定如何将资源分配给各个作业/任务，在Hadoop中，这一部分由一个插拔式的调度器完成。</p>
+<p>更进一步说，slot相当于运行的“许可证”，一个任务只有获得“许可证”后，才能够获得运行的机会，这也意味着，每一个节点上的slot的数量决定了当前节点能够并发执行多少个任务。Hadoop1.0为了区分MapTask跟ReduceTask所使用资源的差异，进一步将slot分为MapSlot跟ReduceSlot，他们分别只能被MapTask跟ReduceTask使用。</p>
+<p>Hadoop集群管理员可根据各个节点硬件配置和应用特点为它们分配不同的map slot数（由参数mapred.tasktracker.map.tasks.maximum指定）和reduce slot数（由参数mapred.tasktrackerreduce.tasks.maximum指定）</p>
+<h6 id="2-2Hadoop1-0资源管理的缺点"><a href="#2-2Hadoop1-0资源管理的缺点" class="headerlink" title="2.2Hadoop1.0资源管理的缺点"></a>2.2Hadoop1.0资源管理的缺点</h6><ol>
+<li><strong>静态资源配置</strong>。采用了静态资源设置策略，即每个节点事先配置好可用的slot总数，这些slot数目一旦启动后无法再动态修改。</li>
+<li><strong>资源无法共享</strong>。Hadoop 1.0将slot分为Map slot和Reduce slot两种，且不允许共享。对于一个作业，刚开始运行时，Map slot资源紧缺而Reduce slot空闲，当Map Task全部运行完成后，Reduce slot紧缺而Map slot空闲。很明显，这种区分slot类别的资源管理方案在一定程度上降低了slot的利用率。</li>
+<li><strong>资源划分粒度过大</strong>。资源划分粒度过大，往往会造成节点资源利用率过高或者过低 ，比如，管理员事先规划好一个slot代表2GB内存和1个CPU，如果一个应用程序的任务只需要1GB内存，则会产生“资源碎片”，从而降低集群资源的利用率，同样，如果一个应用程序的任务需要3GB内存，则会隐式地抢占其他任务的资源，从而产生资源抢占现象，可能导致集群利用率过高。</li>
+<li><strong>没引入有效的资源隔离机制</strong>。Hadoop 1.0仅采用了基于jvm的资源隔离机制，这种方式仍过于粗糙，很多资源，比如CPU，无法进行隔离，这会造成同一个节点上的任务之间干扰严重。</li>
+</ol>
+<h2 id="三-Yarn的资源管理模型"><a href="#三-Yarn的资源管理模型" class="headerlink" title="三.Yarn的资源管理模型"></a>三.Yarn的资源管理模型</h2><p> 在实际系统中，资源本身是多维度的，包括CPU、内存、网络I/O和磁盘I/O等，因此，如果想精确控制资源分配，不能再有slot的概念，最直接的方法就是是让任务直接向调度器申请自己需要的资源（比如某个任务可申请1GB 内存和1个CPU），而调度器则按照任务实际需求为其精细地分配对应的资源量，不再简单的将一个Slot分配给它，Hadoop 2.0正式采用了这种基于真实资源量的资源分配方案。</p>
+<p>  MRv2最基本的设计思想是将JobTracker的两个主要功能，即资源管理和作业调度/监控分成两个独立的进程。全局的ResourceManager（RM）和与每个应用相关的ApplicationMaster（AM）。</p>
+<p><strong>“RM有两个组件组成：调度器（Scheduler）应用管理器（ApplicationsManager，ASM）”</strong></p>
+<p>如下图是官网提供的year架构图</p>
+<p><img src="https://static.656463.com/images/201507/82cddc3703dbd8352842b1a26e84336b.png" alt="img"></p>
+<h6 id="3-1-Yarn的功能组成模块"><a href="#3-1-Yarn的功能组成模块" class="headerlink" title="3.1 Yarn的功能组成模块"></a>3.1 Yarn的功能组成模块</h6><p>  调度器是个可插拔的组件，负责作业的调度并将集群中的资源分配给应用。YARN自带了多个资源调度器，如Capacity Scheduler和Fair Scheduler等。</p>
+<p>   ASM：负责接收任务，并指定AS运行的节点NM节点,同时启动AM</p>
+<ul>
+<li>NM：是每个节点上的资源管理，负责处理来自RM的命令，处理AM的命令，主动发送心跳给RM，让RM能够监控NM的运行状态。</li>
+<li>AM：就是我们的应用（应用可以是mapduce程序或者DAG有向无环图）</li>
+<li>Container：是YARN中资源的抽象，将操作系统中多维度的资源（CPU、内存、网络I/O和磁盘I/O等）封装成container，是Year中资源的基本单位</li>
+</ul>
+<h6 id="3-2-应用在Yarn中的运行流程"><a href="#3-2-应用在Yarn中的运行流程" class="headerlink" title="3.2 应用在Yarn中的运行流程"></a>3.2 应用在Yarn中的运行流程</h6><ol>
+<li>客户端提交一个应用程序AM到ResourceManager上</li>
+<li>ResourceManager先与集群中NodeManager通信，根据集群中NodeManger的资源   使用情况，确定运行AM的NodeManager;</li>
+<li>确定了运行的节点后，AM马上向RM申请资源，资源被封装成Container的形式响应给AM，申请到资源后和确定了执行的NM后，RM马上在NM上启动AM</li>
+<li>所有任务运行完成后，ApplicationMaster向ResourceManager注销，整个应用程序运行结束。</li>
+</ol>
+<h2 id="四-MapReduce1与MapRreduce2的区别"><a href="#四-MapReduce1与MapRreduce2的区别" class="headerlink" title="四.MapReduce1与MapRreduce2的区别"></a>四.MapReduce1与MapRreduce2的区别</h2><p> 如果从MapReduce的功能模块去区分他们，会比较乱，很难直观的说清楚，如果从MapReduce的系统架构入手，这个问题就变得简单了</p>
+<p><strong>MapReduce1从架构的角度可以分为三个部分</strong></p>
+<ol>
+<li>编程模型（新旧API）</li>
+<li>运行环境（JobTracker和TaskTracker）</li>
+<li>数据处理引擎（MapTask和ReduceTask）</li>
+</ol>
+<p><strong>MapReduce2从架构的角度可以分为三个部分</strong></p>
+<ol>
+<li>编程模型（新旧API）</li>
+<li>运行环境（Yarn）</li>
+<li>数据处理引擎（MapTask和ReduceTask）</li>
+</ol>
+<p>从架构可以很清楚区分到，他们之间的区别主要在运行环境变了！</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>马云昊</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>愚者不努力 懒人盼巅峰</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Hadoop/"># Hadoop</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();" target="_blank" rel="noopener">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/08/05/HDFS/">HDFS</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 马云昊 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
